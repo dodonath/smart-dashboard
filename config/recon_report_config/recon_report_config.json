@@ -1,0 +1,19 @@
+{
+  "fallouts": [
+    {
+      "name": "Accounts",
+      "sourceQuery": "select count(1) from city",
+      "middleDBQuery": "select count(1) from city",
+      "targetQuery": "select count(1) from city"
+    },
+    {
+      "name": "Customer",
+      "sourceQuery": "select count(1) from country",
+      "middleDBQuery": "select count(1) from country",
+      "targetQuery": "select count(1) from country"
+    }
+  ],
+  "environmentMap": {
+    "mapDetails": "sourceQuery_omnia|middleDBQuery_csr|targetQuery_rbm"
+  }
+}
