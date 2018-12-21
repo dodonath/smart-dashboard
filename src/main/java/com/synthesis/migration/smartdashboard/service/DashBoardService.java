@@ -6,13 +6,12 @@ import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
 import com.synthesis.migration.smartdashboard.dto.EnvironmentDetailsDto;
 import com.synthesis.migration.smartdashboard.dto.ErrorMasterDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.MigrationHistory;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 
 public interface DashBoardService {
 
 	
-	String persistsFalloutDataFromSystem() throws Exception;
-
 	List<FalloutProgressChartDto> fetchFalloutDataFromSmart();
 
 	List<EntityMasterDto> fetchEntityData();
@@ -27,9 +26,16 @@ public interface DashBoardService {
 
 	Long fetchOmniaData(String sql);
 
-	String persistsTalendLogsIntoSystem() throws CustomValidationException, Exception;
 
 	List<ErrorMasterDto> fetchErrorMasterData();
+
+	String persistsAllData() throws CustomValidationException, Exception;
+
+	Boolean persistsTalendLogsIntoSystem(MigrationHistory history, Long timestamp)
+			throws CustomValidationException, Exception;
+
+	Boolean persistsFalloutDataFromSystem(MigrationHistory history, Long timestamp)
+			throws Exception, CustomValidationException;
 	
 	
 

@@ -170,7 +170,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	@Override
 	@Transactional(transactionManager = "defaultSqlTransactionManager",propagation=Propagation.REQUIRED,rollbackFor= {Exception.class,CustomValidationException.class})
-	public String persistsFalloutDataFromSystem() throws Exception
+	public Boolean persistsFalloutDataFromSystem(MigrationHistory history,Long timestamp) throws Exception,CustomValidationException
 	{
 		List<FalloutDto> dtos = ConfigUtil.getConfigDetails();
 
@@ -183,28 +183,6 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		//Process the data and get the counts
 		Map<String,String> mapping = ConfigUtil.getEnvironmentMapMapping();
-
-
-		Long timestamp = Instant.now().toEpochMilli();
-
-		MigrationHistory prevHistory = migrationHistoryRepository.findTopByOrderByCreatedAtDesc();
-
-		//This is for extra 
-		if(prevHistory.getCreatedAt().longValue() > ConfigUtil.getTodaysMidnightValueInEpoch())
-		{
-			return "Already Saved";
-		}
-
-		MigrationHistory history = new MigrationHistory();
-		history.setActive(Boolean.TRUE);
-		history.setCreatedAt(timestamp);
-		history.setCreatedBy(ADMIN);
-		history.setUpdatedAt(timestamp);
-		history.setUpdatedBy(ADMIN);
-		history.setMigrationDescription("Migration on date "+Instant.now());
-		history.setClientCode("Telecom");
-
-		migrationHistoryRepository.saveAndFlush(history);
 
 		for(FalloutDto fallout : dtos)
 		{
@@ -243,10 +221,23 @@ public class DashBoardServiceImpl implements DashBoardService {
 			environmentDetailsValueRepository.saveAll(values);
 
 		}
-		return "Success";
+		return Boolean.TRUE;
 
 	}
 
+
+	private MigrationHistory createMigrationData(Long timestamp) 
+	{
+		MigrationHistory history = new MigrationHistory();
+		history.setActive(Boolean.TRUE);
+		history.setCreatedAt(timestamp);
+		history.setCreatedBy(ADMIN);
+		history.setUpdatedAt(timestamp);
+		history.setUpdatedBy(ADMIN);
+		history.setMigrationDescription("Migration on date "+Instant.now());
+		history.setClientCode("Telecom");
+		return history;
+	}
 
 	private Long getCount(String environmentKey, String environmentValue, FalloutDto fallout) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 
@@ -329,7 +320,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	@Override
 	@Transactional(rollbackFor= {Exception.class,CustomValidationException.class},propagation=Propagation.REQUIRED,transactionManager = "defaultSqlTransactionManager")
-	public String persistsTalendLogsIntoSystem() throws CustomValidationException,Exception{
+	public Boolean persistsTalendLogsIntoSystem(MigrationHistory history,Long timestamp) throws CustomValidationException,Exception{
 
 		//Get the master data for 
 		Map<String, EntityMaster> masterEntitiesMap = ConfigUtil.populateListToMapWithFieldNameKey(entityMasterRepository.findAll(), "entityCode");
@@ -342,28 +333,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		//Get the parsed the CSV
 		fetchAndParseTalendLogs(talendJobMap,talendErrorMap,masterEntitiesMap);
 
-		Long timestamp = Instant.now().toEpochMilli();
-
-		MigrationHistory prevHistory = migrationHistoryRepository.findTopByOrderByCreatedAtDesc();
-
-		//This is for extra data
-		if(prevHistory!=null && prevHistory.getCreatedAt()!=null && prevHistory.getCreatedAt().longValue() > ConfigUtil.getTodaysMidnightValueInEpoch())
-		{
-			return "Already Saved";
-		}
-
-
-		MigrationHistory history = new MigrationHistory();
-		history.setActive(Boolean.TRUE);
-		history.setCreatedAt(timestamp);
-		history.setCreatedBy(ADMIN);
-		history.setUpdatedAt(timestamp);
-		history.setUpdatedBy(ADMIN);
-		history.setMigrationDescription("Migration on date "+Instant.now());
-		history.setClientCode("Telecom");
-
-		migrationHistoryRepository.saveAndFlush(history);
-		
+				
 		List<DataValidationDetails> details = new ArrayList<>();
 		List<DataRejectionDetails> rejections = new ArrayList<>();
 		
@@ -414,7 +384,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 			dataValidationRepository.saveAll(details);
 		}
 		
-		return "success";
+		return Boolean.TRUE;
 
 	}
 
@@ -436,6 +406,37 @@ public class DashBoardServiceImpl implements DashBoardService {
 				talendErrorMap.put(entityCode, ConfigUtil.parseCsvToBean(errorPath, TalendErrorDetailsDto.class));
 			}
 		}
+	}
+
+	@Override
+	@Transactional(transactionManager = "defaultSqlTransactionManager",propagation=Propagation.REQUIRED,rollbackFor= {Exception.class,CustomValidationException.class})
+	public String persistsAllData() throws CustomValidationException, Exception {
+		String message = "success";
+		Long timestamp = Instant.now().toEpochMilli();
+
+		MigrationHistory prevHistory = migrationHistoryRepository.findTopByOrderByCreatedAtDesc();
+
+		//This is for extra check
+		if(prevHistory!=null && prevHistory.getCreatedAt()!=null && prevHistory.getCreatedAt().longValue() > ConfigUtil.getTodaysMidnightValueInEpoch())
+		{
+			return "AlreadySaved";
+		} 
+		
+		MigrationHistory history = createMigrationData(timestamp);
+		migrationHistoryRepository.saveAndFlush(history);
+		
+		//persists Fallout data
+		Boolean falloutMsg = persistsFalloutDataFromSystem(history, timestamp);
+		
+		//persists Talend data
+		Boolean talendMsg = persistsTalendLogsIntoSystem(history, timestamp);
+		
+		if(!falloutMsg.equals(talendMsg))
+		{
+			message = "Not successful";
+		}
+		
+		return message;
 	}
 
 }

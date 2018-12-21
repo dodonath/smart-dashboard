@@ -46,7 +46,7 @@ public class DashBoardController {
 		return new ResponseEntity<>(entities, HttpStatus.OK);
 	}
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@RequestMapping(value = "/persistsFalloutDataFromSystem", method = RequestMethod.GET)
 	public ResponseEntity<String> fetchAndPersistsFalloutDataFromSystem(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
 	{
@@ -58,6 +58,13 @@ public class DashBoardController {
 	public ResponseEntity<String> persistsTalendLogsIntoSystem(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
 	{
 		return new ResponseEntity<>(dashBoardService.persistsTalendLogsIntoSystem(), HttpStatus.OK);
+	}*/
+	
+	@CrossOrigin
+	@RequestMapping(value = "/persistsAllData", method = RequestMethod.GET)
+	public ResponseEntity<String> persistsAllData(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
+	{
+		return new ResponseEntity<>(dashBoardService.persistsAllData(), HttpStatus.OK);
 	}
 
 
