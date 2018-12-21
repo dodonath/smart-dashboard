@@ -4,30 +4,41 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
 
 @Entity
-@Table(name="ENVIRONMENTDETAILS")
-public class EnvironmentDetails implements Serializable {
-
+@Table(name="ERROR_MASTER")
+public class ErrorMaster implements Serializable{
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1583656043380656426L;
-	
+	private static final long serialVersionUID = -6298723166406490989L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="environmentId")
-	private Long environmentId;
+	@Column(name="errorId")
+	private Long errorId;
 	
-	@Column(name="environmentType")
-	private String environmentType;
+	@Column(name="errorCode")
+	private String errorCode;
+	
+	@Column(name="errorMessage")
+	private String errorMessage;
+	
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="entityId")
+	private EntityMaster entityMaster;
 	
 	@Column(name="createdBy")
 	private String createdBy;
@@ -45,20 +56,36 @@ public class EnvironmentDetails implements Serializable {
 	@Column(name = "active")
 	private Boolean active;
 
-	public Long getEnvironmentId() {
-		return environmentId;
+	public Long getErrorId() {
+		return errorId;
 	}
 
-	public void setEnvironmentId(Long environmentId) {
-		this.environmentId = environmentId;
+	public void setErrorId(Long errorId) {
+		this.errorId = errorId;
 	}
 
-	public String getEnvironmentType() {
-		return environmentType;
+	public String getErrorCode() {
+		return errorCode;
 	}
 
-	public void setEnvironmentType(String environmentType) {
-		this.environmentType = environmentType;
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public EntityMaster getEntityMaster() {
+		return entityMaster;
+	}
+
+	public void setEntityMaster(EntityMaster entityMaster) {
+		this.entityMaster = entityMaster;
 	}
 
 	public String getCreatedBy() {

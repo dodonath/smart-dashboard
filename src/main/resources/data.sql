@@ -1,4 +1,105 @@
-insert into ENTITYMASTER
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (1,'EE0001','Account has product with START_DAT is after END_DAT',1,'Admin','Admin',10000000,100000,1);
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (2,'EE0002','Account has one of the fields as NULL',1,'Admin','Admin',10000000,100000,1);
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (3,'EE0003','Account has product with START_DAT set to NULL',1,'Admin','Admin',10000000,100000,1);
+
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (4,'EE0004','Customer with product is present in OMNIA_CUSTOMERPRODUCTATTR_EXT but not in OMNIA_CUSTOMERPRODUCT_EXT',2,'Admin','Admin',10000000,100000,1);
+
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (5,'EE0005','Account has product with BILLED_TO_DATE before product START_DATE',1,'Admin','Admin',10000000,100000,1);
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (6,'EE0006','Customer record in OMNIA_CUSTOMERATTRIBUTES_EXT but not in OMNIA_CUSTOMER_EXT',2,'Admin','Admin',10000000,100000,1);
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active
+)
+values (7,'EE0007','Customer record in OMNIA_CUSTOMERPRODUCTATTR_EXT but no ACCOUNT_NUMBER in OMNIA_CUSTOMERPRODUCT_EXT',2,'Admin','Admin',10000000,100000,1);
+
+
+insert into ENTITY_MASTER
 (
    entityId,
    entityType,
@@ -7,11 +108,11 @@ insert into ENTITYMASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,entityCode
 )
-values (1,'Accounts','Accounts desc','Admin','Admin',10000000,100000,1);
+values (1,'Accounts','Accounts desc','Admin','Admin',10000000,100000,1,'Accounts');
 
-insert into ENTITYMASTER
+insert into ENTITY_MASTER
 (
    entityId,
    entityType,
@@ -20,12 +121,12 @@ insert into ENTITYMASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,entityCode
 )
-values (2,'Customer','Customer desc','Admin','Admin',10000000,100000,1);
+values (2,'Customer','Customer desc','Admin','Admin',10000000,100000,1,'Customer');
 
 
-insert into ENVIRONMENTDETAILS
+insert into ENVIRONMENT_DETAILS_MASTER
 (
    environmentId,
    environmentType,
@@ -36,7 +137,7 @@ insert into ENVIRONMENTDETAILS
    active
 )
 values (1,'csr','Admin','Admin',10000000,100000,1);
-insert into ENVIRONMENTDETAILS
+insert into ENVIRONMENT_DETAILS_MASTER
 (
    environmentId,
    environmentType,
@@ -48,7 +149,7 @@ insert into ENVIRONMENTDETAILS
 )
 values (2,'rbm','Admin','Admin',10000000,100000,1);
 
-insert into ENVIRONMENTDETAILS
+insert into ENVIRONMENT_DETAILS_MASTER
 (
    environmentId,
    environmentType,

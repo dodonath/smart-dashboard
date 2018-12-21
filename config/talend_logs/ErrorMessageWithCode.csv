@@ -1,0 +1,28 @@
+ERROR_CODE,ERROR_MESSAGE
+EE0001,Account has product with START_DAT is after END_DAT
+EE0002,Account has one of the fields as NULL
+EE0003,Account has product with START_DAT set to NULL
+EE0004,Customer with product is present in OMNIA_CUSTOMERPRODUCTATTR_EXT but not in OMNIA_CUSTOMERPRODUCT_EXT
+EE0005,Account has product with BILLED_TO_DATE before product START_DATE
+EE0006,Customer record in OMNIA_CUSTOMERATTRIBUTES_EXT but not in OMNIA_CUSTOMER_EXT
+EE0007,Customer record in OMNIA_CUSTOMERPRODUCTATTR_EXT but no ACCOUNT_NUMBER in OMNIA_CUSTOMERPRODUCT_EXT
+EE0008,Account has atleast one of the mandatory field set to NULL
+EE0009,Account has atleast one of the mandatory field set to NULL
+EE0010,Account has atleast one of the mandatory field set to NULL
+EE0011,The customer id associated with the account has a CONTACT_ID set to NULL
+EE0012,The customer id and contact id associated with the account in OMNIA_ADDRESS_EXT table doesn't have the CUSTOMER_ID in OMNIA_CUSTOMER_EXT table
+EE0012,The customer id associated with the account has a CONTACT_ID set to NULL
+EE0013,The customer id associated with the account doesn't have a record in OMNIA_CUSTOMER_EXT table 
+EE0014,The customer id associated with the account doesn't have a record in OMNIA_CUSTOMER_EXT table 
+EE0015,The customer id associated with the account doesn't have a record in OMNIA_CUSTOMER_EXT table
+EE0016,The activation date of the customer is after the first bill date
+EE0017,The start_dat of one of the products in the table is after the end_date of the product
+EE0018,The start_dat of one of the products in the table is after the end_date of the product
+EE0019,The activation date of the customer is after the first payment date
+EE0020,The activation date of the customer is after the start_dat of atleast one of the products in SUBSCRIPTION table
+EE0021,OMNIA_CUSTOMERPRODUCT_EXT has more than one product of the same type for the same service location
+EE0025,The AccountId associated with the mandate has atleast one of te mandatory field set to null
+EE0024,The AccountId associated with the mandate is not present in the account table
+EE0022,The AccountCode associated with the AccountId has atleast one of the mandatory field as NULL
+EE0023,The AccountCode associated with the AccountId is not of the customer type CSFTTH
+EE0026,The subscription input file has at least one mandatory field as null

@@ -1,8 +1,9 @@
 
-create table ENTITYMASTER
+create table ENTITY_MASTER
 (
    entityId bigint AUTO_INCREMENT not null,
    entityType varchar(255) not null,
+   entityCode varchar(255) not null,
    entityDescription varchar(255),
    createdBy varchar(255),
    updatedBy varchar(255),
@@ -12,7 +13,54 @@ create table ENTITYMASTER
    primary key(entityId)
 );
 
-create table ENVIRONMENTDETAILS
+create table DATA_VALIDATION_DETAILS
+(
+   validationId bigint AUTO_INCREMENT not null,
+   entityId bigint not null,
+   migrationId bigint not null,
+   collectedCount bigint not null,
+   validatedCount bigint not null,
+   transformedCount bigint not null,
+   startedAt bigint ,
+   endedAt bigint ,
+   createdBy varchar(255),
+   updatedBy varchar(255),
+   createdAt bigint ,
+   updatedAt bigint ,
+   active boolean not null,
+   primary key(validationId)
+);
+
+create table DATA_REJECTION_DETAILS
+(
+   rejectionId bigint AUTO_INCREMENT not null,
+   entityId bigint not null,
+   migrationId bigint not null,
+   errorId bigint not null,
+   rejectionAccountId bigint,
+   createdBy varchar(255),
+   updatedBy varchar(255),
+   createdAt bigint ,
+   updatedAt bigint ,
+   active boolean not null,
+   primary key(rejectionId)
+);
+
+create table ERROR_MASTER
+(
+   errorId bigint AUTO_INCREMENT not null,
+   errorCode varchar(255) not null,
+   errorMessage varchar(255) not null,
+   entityId bigint not null,
+   createdBy varchar(255),
+   updatedBy varchar(255),
+   createdAt bigint ,
+   updatedAt bigint ,
+   active boolean not null,
+   primary key(errorId)
+);
+
+create table ENVIRONMENT_DETAILS_MASTER
 (
    environmentId bigint AUTO_INCREMENT not null,
    environmentType varchar(255) not null,

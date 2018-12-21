@@ -4,11 +4,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,24 +20,34 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepository;
+import com.synthesis.migration.smartdashboard.dao.defaultdb.DataRejectionRepository;
+import com.synthesis.migration.smartdashboard.dao.defaultdb.DataValidationRepository;
 import com.synthesis.migration.smartdashboard.dao.defaultdb.EntityMasterRepository;
 import com.synthesis.migration.smartdashboard.dao.defaultdb.EntityMigrationRepository;
 import com.synthesis.migration.smartdashboard.dao.defaultdb.EnvironmentDetailsRepository;
 import com.synthesis.migration.smartdashboard.dao.defaultdb.EnvironmentDetailsValueRepository;
+import com.synthesis.migration.smartdashboard.dao.defaultdb.ErrorMasterRepository;
 import com.synthesis.migration.smartdashboard.dao.defaultdb.MigrationHistoryRepository;
 import com.synthesis.migration.smartdashboard.dao.omniadb.OminaRepositoryCustom;
 import com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepository;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto.FalloutDto;
 import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
 import com.synthesis.migration.smartdashboard.dto.EnvironmentDetailsDto;
+import com.synthesis.migration.smartdashboard.dto.ErrorMasterDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto.EntityDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto.ProgressionDto;
+import com.synthesis.migration.smartdashboard.dto.TalendErrorDetailsDto;
+import com.synthesis.migration.smartdashboard.dto.TalendJobDetailsDto;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.DataValidationDetails;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.EntityMaster;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.EntityMigrationData;
-import com.synthesis.migration.smartdashboard.entity.defaultdb.EnvironmentDetails;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.EnvironmentDetailsMaster;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.EnvironmentValueDetails;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.ErrorMaster;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.MigrationHistory;
+import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 import com.synthesis.migration.smartdashboard.service.DashBoardService;
 import com.synthesis.migration.smartdashboard.util.ConfigUtil;
 
@@ -69,6 +82,15 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	@Autowired
 	private EntityMigrationRepository entityMigrationRepository;
+	
+	@Autowired
+	private ErrorMasterRepository errorMasterRepository;
+	
+	@Autowired
+	private DataValidationRepository dataValidationRepository;
+	
+	@Autowired
+	private DataRejectionRepository dataRejectionRepository;
 
 
 
@@ -123,7 +145,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 				progressionList.add(progess);
 				migrationIdAndEntityIdMappingForProgression.put(migrationId+"_"+entityId, progressionList);
 
-				
+
 				//This is for Entity
 				entityMap = migrationIdMappingForEntities.get(migrationId);
 
@@ -147,7 +169,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 	}
 
 	@Override
-	@Transactional(transactionManager = "defaultSqlTransactionManager",propagation=Propagation.REQUIRED)
+	@Transactional(transactionManager = "defaultSqlTransactionManager",propagation=Propagation.REQUIRED,rollbackFor= {Exception.class,CustomValidationException.class})
 	public String persistsFalloutDataFromSystem() throws Exception
 	{
 		List<FalloutDto> dtos = ConfigUtil.getConfigDetails();
@@ -157,23 +179,21 @@ public class DashBoardServiceImpl implements DashBoardService {
 		Map<String, EntityMaster> masterEntitiesMap = ConfigUtil.populateListToMapWithFieldNameKey( entityMasterRepository.findAll(), "entityType");
 
 		//Get the environments
-		Map<String, EnvironmentDetails> environmentDetailMap = ConfigUtil.populateListToMapWithFieldNameKey( environmentDetailsRepository.findAll(),"environmentType");
+		Map<String, EnvironmentDetailsMaster> environmentDetailMap = ConfigUtil.populateListToMapWithFieldNameKey( environmentDetailsRepository.findAll(),"environmentType");
 
 		//Process the data and get the counts
 		Map<String,String> mapping = ConfigUtil.getEnvironmentMapMapping();
 
 
 		Long timestamp = Instant.now().toEpochMilli();
-		
+
 		MigrationHistory prevHistory = migrationHistoryRepository.findTopByOrderByCreatedAtDesc();
-		
+
 		//This is for extra 
 		if(prevHistory.getCreatedAt().longValue() > ConfigUtil.getTodaysMidnightValueInEpoch())
 		{
 			return "Already Saved";
 		}
-		
-		
 
 		MigrationHistory history = new MigrationHistory();
 		history.setActive(Boolean.TRUE);
@@ -245,42 +265,31 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	@Override
 	@Transactional(transactionManager = "omniaSqlTransactionManager",readOnly=true)
-	public Long fetchOmniaData(String sql) {
+	public Long fetchOmniaData(String sql) 
+	{
 
-		Object countObject = ominaRepository.getCount(sql);
-		{
-			return Long.valueOf(countObject.toString());
-		}
+		return ominaRepository.getCount(sql);
 	}
 
 	@Override
 	@Transactional(transactionManager = "csrSqlTransactionManager",readOnly=true)
-	public Long fetchCsrData(String sql) {
+	public Long fetchCsrData(String sql) 
+	{
 
-		Object countObject = csrRepository.getCount(sql);
-		if(countObject!=null)
-		{
-			return Long.valueOf(countObject.toString());
-		}
-		return 0l;
+		return csrRepository.getCount(sql);
 	}
 
 	@Override
 	@Transactional(transactionManager = "rbmSqlTransactionManager",readOnly=true)
-	public Long fetchRbmData(String sql) {
+	public Long fetchRbmData(String sql) 
+	{
 
-		Object countObject = rbmRepository.getCount(sql);
-		if(countObject!=null)
-		{
-			return Long.valueOf(countObject.toString());
-		}
-		return 0l;
+		return rbmRepository.getCount(sql);
 	}
 
 	@Override
 	@Transactional(transactionManager = "defaultSqlTransactionManager",readOnly=true)
 	public List<EntityMasterDto> fetchEntityData() {
-		// TODO Auto-generated method stub
 		List<EntityMasterDto> dtos = new ArrayList<>();
 		List<EntityMaster> masterList = entityMasterRepository.findAll();
 		masterList.stream().forEach(m -> {
@@ -294,9 +303,8 @@ public class DashBoardServiceImpl implements DashBoardService {
 	@Override
 	@Transactional(transactionManager = "defaultSqlTransactionManager",readOnly=true)
 	public List<EnvironmentDetailsDto> fetchEnvironmentData() {
-		// TODO Auto-generated method stub
 		List<EnvironmentDetailsDto> dtos = new ArrayList<>();
-		List<EnvironmentDetails> masterList = environmentDetailsRepository.findAll();
+		List<EnvironmentDetailsMaster> masterList = environmentDetailsRepository.findAll();
 		masterList.stream().forEach(m -> {
 			EnvironmentDetailsDto dto = new EnvironmentDetailsDto();
 			BeanUtils.copyProperties(m, dto);
@@ -304,29 +312,129 @@ public class DashBoardServiceImpl implements DashBoardService {
 		});
 		return dtos;
 	}
-
-	public static void main(String args[])
-	{
-		
-		
+	
+	@Override
+	@Transactional(transactionManager = "defaultSqlTransactionManager",readOnly=true)
+	public List<ErrorMasterDto> fetchErrorMasterData() {
+		List<ErrorMasterDto> dtos = new ArrayList<>();
+		List<ErrorMaster> masterList = errorMasterRepository.findAll();
+		masterList.stream().forEach(m -> {
+			ErrorMasterDto dto = new ErrorMasterDto();
+			BeanUtils.copyProperties(m, dto);
+			dtos.add(dto);
+		});
+		return dtos;
 	}
 
-	public static int getValue()
+
+	@Override
+	@Transactional(rollbackFor= {Exception.class,CustomValidationException.class},propagation=Propagation.REQUIRED,transactionManager = "defaultSqlTransactionManager")
+	public String persistsTalendLogsIntoSystem() throws CustomValidationException,Exception{
+
+		//Get the master data for 
+		Map<String, EntityMaster> masterEntitiesMap = ConfigUtil.populateListToMapWithFieldNameKey(entityMasterRepository.findAll(), "entityCode");
+		Map<String, ErrorMaster> masterErrorsMap = ConfigUtil.populateListToMapWithFieldNameKey(errorMasterRepository.findAll(), "errorCode");
+		
+		
+		Map<String,List<TalendJobDetailsDto>> talendJobMap = new HashMap<>();
+		Map<String,List<TalendErrorDetailsDto>> talendErrorMap = new HashMap<>();
+		
+		//Get the parsed the CSV
+		fetchAndParseTalendLogs(talendJobMap,talendErrorMap,masterEntitiesMap);
+
+		Long timestamp = Instant.now().toEpochMilli();
+
+		MigrationHistory prevHistory = migrationHistoryRepository.findTopByOrderByCreatedAtDesc();
+
+		//This is for extra data
+		if(prevHistory!=null && prevHistory.getCreatedAt()!=null && prevHistory.getCreatedAt().longValue() > ConfigUtil.getTodaysMidnightValueInEpoch())
+		{
+			return "Already Saved";
+		}
+
+
+		MigrationHistory history = new MigrationHistory();
+		history.setActive(Boolean.TRUE);
+		history.setCreatedAt(timestamp);
+		history.setCreatedBy(ADMIN);
+		history.setUpdatedAt(timestamp);
+		history.setUpdatedBy(ADMIN);
+		history.setMigrationDescription("Migration on date "+Instant.now());
+		history.setClientCode("Telecom");
+
+		migrationHistoryRepository.saveAndFlush(history);
+		
+		List<DataValidationDetails> details = new ArrayList<>();
+		List<DataRejectionDetails> rejections = new ArrayList<>();
+		
+		if(MapUtils.isNotEmpty(talendJobMap))
+		{
+			talendJobMap.entrySet().stream().forEach(entry -> {
+				TalendJobDetailsDto job = entry.getValue().get(0);
+				DataValidationDetails valid = new DataValidationDetails();
+				BeanUtils.copyProperties(job, valid);
+				valid.setActive(Boolean.TRUE);
+				valid.setCreatedAt(timestamp);
+				valid.setCreatedBy(ADMIN);
+				valid.setUpdatedAt(timestamp);
+				valid.setUpdatedBy(ADMIN);
+				valid.setEntity(masterEntitiesMap.get(entry.getKey()));
+				valid.setMigrationHistory(history);
+				details.add(valid);
+			});
+		}
+		
+		if(MapUtils.isNotEmpty(talendErrorMap))
+		{
+			talendErrorMap.entrySet().stream().forEach(entry -> {
+				List<TalendErrorDetailsDto> errors = entry.getValue();
+				errors.forEach(error -> {
+					DataRejectionDetails reject = new DataRejectionDetails();
+					BeanUtils.copyProperties(error, reject);
+					reject.setActive(Boolean.TRUE);
+					reject.setCreatedAt(timestamp);
+					reject.setCreatedBy(ADMIN);
+					reject.setUpdatedAt(timestamp);
+					reject.setUpdatedBy(ADMIN);
+					reject.setEntity(masterEntitiesMap.get(entry.getKey()));
+					reject.setMigrationHistory(history);
+					reject.setErrorMaster(masterErrorsMap.get(error.getErrorCode()));
+					rejections.add(reject);
+				});
+			});
+		}
+		
+		if(CollectionUtils.isNotEmpty(rejections))
+		{
+			dataRejectionRepository.saveAll(rejections);
+		}
+		
+		if(CollectionUtils.isNotEmpty(details))
+		{
+			dataValidationRepository.saveAll(details);
+		}
+		
+		return "success";
+
+	}
+
+	private void fetchAndParseTalendLogs(Map<String, List<TalendJobDetailsDto>> talendJobMap,
+			Map<String, List<TalendErrorDetailsDto>> talendErrorMap, Map<String, EntityMaster> masterEntitiesMap) 
 	{
-		int a=0;
-		try 
+		String jobPath = "",errorPath="";
+		String entityCode =null;
+		String keyNm="";
+		if(MapUtils.isNotEmpty(masterEntitiesMap))
 		{
-			throw new Exception();
-		}
-		catch(Exception e)
-		{
-			a = 1;
-			return a;
-		}
-		finally
-		{
-			a= 2;
-			return a;
+			for(Map.Entry<String, EntityMaster> entry : masterEntitiesMap.entrySet())
+			{
+				entityCode = entry.getValue().getEntityCode();
+				keyNm = entry.getKey();
+				jobPath = "./config/talend_logs/"+keyNm+"RunDetails.csv";
+				errorPath = "./config/talend_logs/"+keyNm+"Error.csv";
+				talendJobMap.put(entityCode, ConfigUtil.parseCsvToBean(jobPath, TalendJobDetailsDto.class));
+				talendErrorMap.put(entityCode, ConfigUtil.parseCsvToBean(errorPath, TalendErrorDetailsDto.class));
+			}
 		}
 	}
 

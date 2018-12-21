@@ -11,25 +11,23 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+
 @Entity
-@Table(name="ENTITY_MASTER")
-public class EntityMaster implements Serializable{
+@Table(name="ENVIRONMENT_DETAILS_MASTER")
+public class EnvironmentDetailsMaster implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5159320078994649297L;
+	private static final long serialVersionUID = 1583656043380656426L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="entityId")
-	private Long entityId;
+	@Column(name="environmentId")
+	private Long environmentId;
 	
-	@Column(name="entityType")
-	private String entityType;
-	
-	@Column(name="entityDescription")
-	private String entityDescription;
+	@Column(name="environmentType")
+	private String environmentType;
 	
 	@Column(name="createdBy")
 	private String createdBy;
@@ -46,32 +44,21 @@ public class EntityMaster implements Serializable{
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "active")
 	private Boolean active;
-	
-	@Column(name="entityCode")
-	private String entityCode;
 
-	public Long getEntityId() {
-		return entityId;
+	public Long getEnvironmentId() {
+		return environmentId;
 	}
 
-	public void setEntityId(Long entityId) {
-		this.entityId = entityId;
+	public void setEnvironmentId(Long environmentId) {
+		this.environmentId = environmentId;
 	}
 
-	public String getEntityType() {
-		return entityType;
+	public String getEnvironmentType() {
+		return environmentType;
 	}
 
-	public void setEntityType(String entityType) {
-		this.entityType = entityType;
-	}
-
-	public String getEntityDescription() {
-		return entityDescription;
-	}
-
-	public void setEntityDescription(String entityDescription) {
-		this.entityDescription = entityDescription;
+	public void setEnvironmentType(String environmentType) {
+		this.environmentType = environmentType;
 	}
 
 	public String getCreatedBy() {
@@ -113,15 +100,6 @@ public class EntityMaster implements Serializable{
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-
-	public String getEntityCode() {
-		return entityCode;
-	}
-
-	public void setEntityCode(String entityCode) {
-		this.entityCode = entityCode;
-	}
-	
 	
 	
 

@@ -14,30 +14,33 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-@Entity
-@Table(name="EnvironmentValueDetails")
-public class EnvironmentValueDetails implements Serializable{
+@Table
+@Entity(name="DATA_REJECTION_DETAILS")
+public class DataRejectionDetails implements Serializable {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1984380601833111939L;
+	private static final long serialVersionUID = 3137448528882353038L;
+
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="historyId")
-	private Long historyId;
+	@Column(name="rejectionId")
+	private Long rejectionId;
+	
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="environmentId")
-	private EnvironmentDetailsMaster environmentDetails;
+	@JoinColumn(name="entityId")
+	private EntityMaster entity;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="entityMigrationId")
-	private EntityMigrationData entityMigrationData;
+	@JoinColumn(name="migrationId")
+	private MigrationHistory migrationHistory;
 	
-	@Column(name="environmentCount")
-	private Long environmentCount;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="errorId")
+	private ErrorMaster errorMaster;
 	
 	@Column(name="createdBy")
 	private String createdBy;
@@ -55,24 +58,39 @@ public class EnvironmentValueDetails implements Serializable{
 	@Column(name = "active")
 	private Boolean active;
 	
-	
+	@Column(name="rejectionAccountId")
+	private Long rejectionAccountId; 
 
-	public Long getHistoryId() {
-		return historyId;
+	public Long getRejectionId() {
+		return rejectionId;
 	}
 
-	public void setHistoryId(Long historyId) {
-		this.historyId = historyId;
+	public void setRejectionId(Long rejectionId) {
+		this.rejectionId = rejectionId;
 	}
 
-	
-
-	public Long getEnvironmentCount() {
-		return environmentCount;
+	public EntityMaster getEntity() {
+		return entity;
 	}
 
-	public void setEnvironmentCount(Long environmentCount) {
-		this.environmentCount = environmentCount;
+	public void setEntity(EntityMaster entity) {
+		this.entity = entity;
+	}
+
+	public MigrationHistory getMigrationHistory() {
+		return migrationHistory;
+	}
+
+	public void setMigrationHistory(MigrationHistory migrationHistory) {
+		this.migrationHistory = migrationHistory;
+	}
+
+	public ErrorMaster getErrorMaster() {
+		return errorMaster;
+	}
+
+	public void setErrorMaster(ErrorMaster errorMaster) {
+		this.errorMaster = errorMaster;
 	}
 
 	public String getCreatedBy() {
@@ -115,31 +133,14 @@ public class EnvironmentValueDetails implements Serializable{
 		this.active = active;
 	}
 
-	
-
-	public EnvironmentDetailsMaster getEnvironmentDetails() {
-		return environmentDetails;
+	public Long getRejectionAccountId() {
+		return rejectionAccountId;
 	}
 
-	public void setEnvironmentDetails(EnvironmentDetailsMaster environmentDetails) {
-		this.environmentDetails = environmentDetails;
-	}
-
-	public EntityMigrationData getEntityMigrationData() {
-		return entityMigrationData;
-	}
-
-	public void setEntityMigrationData(EntityMigrationData entityMigrationData) {
-		this.entityMigrationData = entityMigrationData;
+	public void setRejectionAccountId(Long rejectionAccountId) {
+		this.rejectionAccountId = rejectionAccountId;
 	}
 
 	
-
 	
-	
-	
-	
-	
-	
-
 }
