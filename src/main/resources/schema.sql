@@ -28,6 +28,7 @@ create table DATA_VALIDATION_DETAILS
    createdAt bigint ,
    updatedAt bigint ,
    active boolean not null,
+   source varchar(255),
    primary key(validationId)
 );
 
@@ -43,6 +44,7 @@ create table DATA_REJECTION_DETAILS
    createdAt bigint ,
    updatedAt bigint ,
    active boolean not null,
+   source varchar(255),
    primary key(rejectionId)
 );
 

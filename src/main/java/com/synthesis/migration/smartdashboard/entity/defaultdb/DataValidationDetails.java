@@ -70,6 +70,9 @@ public class DataValidationDetails implements Serializable{
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "active")
 	private Boolean active;
+	
+	@Column(name="source")
+	private String source;
 
 	public Long getValidationId() {
 		return validationId;
@@ -173,6 +176,14 @@ public class DataValidationDetails implements Serializable{
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 	

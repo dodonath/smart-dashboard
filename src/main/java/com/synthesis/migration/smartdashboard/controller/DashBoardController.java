@@ -4,18 +4,21 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
+import com.synthesis.migration.smartdashboard.dto.FetchErrorRequestDto;
+import com.synthesis.migration.smartdashboard.dto.FetchErrorResponseDto;
+import com.synthesis.migration.smartdashboard.dto.TalendErrorDetailsDto;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 import com.synthesis.migration.smartdashboard.service.DashBoardService;
 
@@ -44,6 +47,15 @@ public class DashBoardController {
 	{
 		List<EntityMasterDto> entities = dashBoardService.fetchEntityData();;
 		return new ResponseEntity<>(entities, HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/fetchErrorData", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ResponseEntity<FetchErrorResponseDto> fetchErrorData(@RequestBody FetchErrorRequestDto request,
+			HttpServletRequest httpServletRequest) throws CustomValidationException
+	{
+		FetchErrorResponseDto errors = dashBoardService.fetchErrorData(request);
+		return new ResponseEntity<>(errors, HttpStatus.OK);
 	}
 	
 	/*@CrossOrigin

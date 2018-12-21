@@ -6,6 +6,8 @@ import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
 import com.synthesis.migration.smartdashboard.dto.EnvironmentDetailsDto;
 import com.synthesis.migration.smartdashboard.dto.ErrorMasterDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
+import com.synthesis.migration.smartdashboard.dto.FetchErrorRequestDto;
+import com.synthesis.migration.smartdashboard.dto.FetchErrorResponseDto;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.MigrationHistory;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 
@@ -36,6 +38,8 @@ public interface DashBoardService {
 
 	Boolean persistsFalloutDataFromSystem(MigrationHistory history, Long timestamp)
 			throws Exception, CustomValidationException;
+
+	FetchErrorResponseDto fetchErrorData(FetchErrorRequestDto request);
 	
 	
 

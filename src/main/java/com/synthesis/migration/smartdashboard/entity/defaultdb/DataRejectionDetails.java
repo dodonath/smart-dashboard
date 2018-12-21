@@ -60,6 +60,9 @@ public class DataRejectionDetails implements Serializable {
 	
 	@Column(name="rejectionAccountId")
 	private Long rejectionAccountId; 
+	
+	@Column(name="source")
+	private String source;
 
 	public Long getRejectionId() {
 		return rejectionId;
@@ -139,6 +142,14 @@ public class DataRejectionDetails implements Serializable {
 
 	public void setRejectionAccountId(Long rejectionAccountId) {
 		this.rejectionAccountId = rejectionAccountId;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 	
