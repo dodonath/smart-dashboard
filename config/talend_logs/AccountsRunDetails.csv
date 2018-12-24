@@ -1,2 +1,2 @@
-collectedCount,validatedCount,transformedCount,startedAt,endedAt
-663,400,972,,
+collectedCount,validatedCount,transformedCount,loadedCount,startedAt,endedAt
+663,400,972,,,

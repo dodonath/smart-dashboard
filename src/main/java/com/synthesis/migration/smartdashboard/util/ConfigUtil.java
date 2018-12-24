@@ -25,6 +25,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import com.opencsv.enums.CSVReaderNullFieldIndicator;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto.FalloutDto;
 
@@ -156,6 +157,7 @@ public class ConfigUtil {
 			CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
 					.withMappingStrategy(headerColumnName)
 					.withIgnoreLeadingWhiteSpace(Boolean.TRUE.booleanValue())
+					.withFieldAsNull(CSVReaderNullFieldIndicator.BOTH)
 					.withSeparator(',')
 					.build();
 			list = csvToBean.parse();

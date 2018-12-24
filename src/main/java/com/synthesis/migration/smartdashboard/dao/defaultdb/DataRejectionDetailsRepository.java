@@ -1,5 +1,7 @@
 package com.synthesis.migration.smartdashboard.dao.defaultdb;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +28,18 @@ public interface DataRejectionDetailsRepository extends CrudRepository<DataRejec
 			 @Param("entityId")Long entityId,
 			 @Param("errorCode")String errorCode,
 			 Pageable pagingData);
+	
+	
+	
+	@Query("select distinct dr.migrationHistory.migrationId,dr.entity.entityId,dr.errorMaster.errorId,em.errorCode, " + 
+			"(select count(errorId) from com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails where errorId = dr.errorMaster.errorId) " + 
+			"from com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails dr " + 
+			"join dr.migrationHistory m " + 
+			"join dr.entity en " + 
+			"join dr.errorMaster em " + 
+			"where m.migrationId = (select max(dr1.migrationHistory.migrationId) from com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails dr1) " + 
+			"")
+	 List<Object[]> findLatestRejectionDetails();
+	
 }
 

@@ -48,6 +48,9 @@ public class DataValidationDetails implements Serializable{
 	@Column(name="transformedCount")
 	private Long transformedCount;
 	
+	@Column(name="loadedCount")
+	private Long loadedCount;
+	
 	@Column(name="startedAt")
 	private Long startedAt;
 	
@@ -184,6 +187,14 @@ public class DataValidationDetails implements Serializable{
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public Long getLoadedCount() {
+		return loadedCount;
+	}
+
+	public void setLoadedCount(Long loadedCount) {
+		this.loadedCount = loadedCount;
 	}
 	
 	

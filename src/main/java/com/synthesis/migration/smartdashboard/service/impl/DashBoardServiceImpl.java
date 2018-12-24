@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,6 +44,10 @@ import com.synthesis.migration.smartdashboard.dto.FetchErrorRequestDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorResponseDto;
 import com.synthesis.migration.smartdashboard.dto.TalendErrorDetailsDto;
 import com.synthesis.migration.smartdashboard.dto.TalendJobDetailsDto;
+import com.synthesis.migration.smartdashboard.dto.ValidationChartDto;
+import com.synthesis.migration.smartdashboard.dto.ValidationChartDto.EntityValidationDto;
+import com.synthesis.migration.smartdashboard.dto.ValidationChartDto.ValdationErrorDto;
+import com.synthesis.migration.smartdashboard.dto.ValidationChartDto.ValidationStatusDto;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.DataValidationDetails;
 import com.synthesis.migration.smartdashboard.entity.defaultdb.EntityMaster;
@@ -458,8 +463,10 @@ public class DashBoardServiceImpl implements DashBoardService {
 	{
 		FetchErrorResponseDto response = new FetchErrorResponseDto();
 		PageRequest pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
-		Page<TalendErrorDetailsDto> result = dataRejectionRepository.findErrorDetails(request.getMigrationId(), request.getEntityId(), request.getErrorCode(), 
-				pageRequest);	
+		Page<TalendErrorDetailsDto> result = dataRejectionRepository.findErrorDetails(request.getMigrationId(), 
+				request.getEntityId(), request.getErrorCode(), 
+				pageRequest);
+		
 
 		if(result!=null && CollectionUtils.isNotEmpty(result.getContent()))
 		{
@@ -469,6 +476,86 @@ public class DashBoardServiceImpl implements DashBoardService {
 			response.setTotalElements(result.getTotalElements());
 		}
 		return response;
+	}
+
+	@Override
+	public List<ValidationChartDto> fetchMigrationValidationData() throws Exception, CustomValidationException {
+		List<Object[]> validations = dataValidationRepository.findLatestValidationDetails();
+		List<Object[]> rejections = dataRejectionRepository.findLatestRejectionDetails();
+		
+		List<ValidationChartDto> charts = new ArrayList<>();
+		ValidationChartDto chart = new ValidationChartDto();
+		charts.add(chart);
+		Long entityId = null;
+		Map<Long,EntityValidationDto> entitiesToValidationMap = new HashMap<>();
+		Map<Long,List<ValdationErrorDto>> entitiesToErrorListMap = new HashMap<>();
+		
+		for(Object[] objs : rejections)
+		{
+			
+			ValdationErrorDto error = new ValdationErrorDto();
+			error.setErrorId(objs[2]!=null ? (Long) objs[2] : null);
+			error.setErrorCode(objs[3]!=null ? objs[3].toString() : null);
+			error.setErrorCount(objs[4]!=null ? (Long) objs[4] : null);
+			
+			entityId = objs[1]!=null ? (Long) objs[1] : null;
+			List<ValdationErrorDto> errors =  entitiesToErrorListMap.get(entityId);
+			if(errors == null)
+			{
+				errors = new ArrayList<>();
+				
+			}
+			errors.add(error);
+			entitiesToErrorListMap.put(entityId,errors);
+		}
+		
+		entityId = null;
+		for(Object[] objs : validations )
+		{
+			if(chart.getMigrationId() == null)
+			{
+				chart.setMigrationId(objs[0]!=null ? (Long) objs[0] : null);
+				chart.setMigrationDate(objs[1]!=null ? Instant.ofEpochMilli(((Long)objs[1])).atZone(ZoneId.systemDefault()).toLocalDate().toString() : null);
+				chart.setClientCode(objs[2]!=null ? objs[2].toString() : null);
+				chart.setMigrationDescription(objs[3]!=null ? objs[3].toString() : null);
+			}
+			
+			entityId = objs[4]!=null ? (Long) objs[4] : null;
+			
+			//Adding entities and validation in the JSON
+			if(entitiesToValidationMap.get(entityId) == null)
+			{
+				ValidationStatusDto status = new ValidationStatusDto();
+				status.setCollected(objs[6]!=null ? (Long) objs[6] : null);
+				status.setValidated(objs[7]!=null ? (Long) objs[7] : null);
+				status.setTransformed(objs[8]!=null ? (Long) objs[8] : null);
+				status.setLoaded(objs[9]!=null ? (Long) objs[9] : null);
+				
+				EntityValidationDto  validation = new EntityValidationDto();
+				validation.setEntityId(entityId);
+				validation.setEntityType(objs[5]!=null ? objs[5].toString() : null);
+				validation.setMigrationStats(status);
+				
+				List<ValdationErrorDto> errors =  entitiesToErrorListMap.get(entityId);
+				if(CollectionUtils.isNotEmpty(errors))
+				{
+					Collections.sort(errors, (error1,error2) -> error1.getErrorId().compareTo(error2.getErrorId()));
+					validation.setErrors(errors);
+				}
+				
+				
+				List<EntityValidationDto> entities = chart.getEntities();
+				if(entities ==null)
+				{
+					entities  = new ArrayList<>();
+				}
+				entities.add(validation);
+				chart.setEntities(entities);
+				entitiesToValidationMap.put(entityId, validation);
+			}
+		}
+		
+		return charts;
 	}
 
 }

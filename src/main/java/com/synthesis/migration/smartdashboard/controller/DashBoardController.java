@@ -18,7 +18,7 @@ import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorRequestDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorResponseDto;
-import com.synthesis.migration.smartdashboard.dto.TalendErrorDetailsDto;
+import com.synthesis.migration.smartdashboard.dto.ValidationChartDto;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 import com.synthesis.migration.smartdashboard.service.DashBoardService;
 
@@ -78,6 +78,14 @@ public class DashBoardController {
 	{
 		return new ResponseEntity<>(dashBoardService.persistsAllData(), HttpStatus.OK);
 	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/fetchMigrationValidationData", method = RequestMethod.GET)
+	public ResponseEntity<List<ValidationChartDto>> fetchMigrationValidationData(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
+	{
+		return new ResponseEntity<>(dashBoardService.fetchMigrationValidationData(), HttpStatus.OK);
+	}
+	
 
 
 }
