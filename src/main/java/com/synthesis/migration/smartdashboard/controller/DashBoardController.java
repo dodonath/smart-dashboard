@@ -59,6 +59,15 @@ public class DashBoardController {
 	}
 	
 	/*@CrossOrigin
+	@RequestMapping(value = "/downloadErrorData", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST,produces = "text/csv")
+	public ResponseEntity<FetchErrorResponseDto> downloadErrorData(@RequestBody FetchErrorRequestDto request,
+			HttpServletRequest httpServletRequest) throws CustomValidationException
+	{
+		FetchErrorResponseDto errors = dashBoardService.fetchErrorData(request);
+		return new ResponseEntity<>(errors, HttpStatus.OK);
+	}*/
+	
+	/*@CrossOrigin
 	@RequestMapping(value = "/persistsFalloutDataFromSystem", method = RequestMethod.GET)
 	public ResponseEntity<String> fetchAndPersistsFalloutDataFromSystem(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
 	{

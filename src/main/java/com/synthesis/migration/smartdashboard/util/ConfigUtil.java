@@ -1,6 +1,7 @@
 package com.synthesis.migration.smartdashboard.util;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -22,10 +23,15 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto.FalloutDto;
 
@@ -169,6 +175,36 @@ public class ConfigUtil {
 		return list;
 
 	}
+	
+	public static <T> void writeBeanToCsv(PrintWriter writer,List<T> list,Class<T> classNm)
+	{
+		try 
+		{
+
+			HeaderColumnNameMappingStrategy<T> headerColumnName = new HeaderColumnNameMappingStrategy<>();
+			headerColumnName.setType(classNm);
+			headerColumnName.generateHeader();
+			
+			StatefulBeanToCsv<T> btcsv = new StatefulBeanToCsvBuilder<T>(writer)
+                    .withQuotechar(CSVWriter.DEFAULT_QUOTE_CHARACTER)
+                    .withMappingStrategy(headerColumnName)
+                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                    .build();
+			btcsv.write(list);
+		}
+		 
+		catch (CsvDataTypeMismatchException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (CsvRequiredFieldEmptyException e) 
+		{
+			e.printStackTrace();
+		}
+
+	}
+	
+	
 
 
 }

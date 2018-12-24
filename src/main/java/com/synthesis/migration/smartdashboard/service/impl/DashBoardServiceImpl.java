@@ -461,8 +461,12 @@ public class DashBoardServiceImpl implements DashBoardService {
 	rollbackFor= {Exception.class,CustomValidationException.class})
 	public FetchErrorResponseDto fetchErrorData(FetchErrorRequestDto request) 
 	{
+		PageRequest pageRequest = PageRequest.of(0, Integer.MAX_VALUE);
 		FetchErrorResponseDto response = new FetchErrorResponseDto();
-		PageRequest pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
+		if(request.getPageNumber()!=null && request.getPageSize()!=null)
+		{
+			pageRequest = PageRequest.of(request.getPageNumber(), request.getPageSize());
+		}
 		Page<TalendErrorDetailsDto> result = dataRejectionRepository.findErrorDetails(request.getMigrationId(), 
 				request.getEntityId(), request.getErrorCode(), 
 				pageRequest);
@@ -490,6 +494,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		Map<Long,EntityValidationDto> entitiesToValidationMap = new HashMap<>();
 		Map<Long,List<ValdationErrorDto>> entitiesToErrorListMap = new HashMap<>();
 		
+		//Populating the rejection data
 		for(Object[] objs : rejections)
 		{
 			
@@ -508,7 +513,8 @@ public class DashBoardServiceImpl implements DashBoardService {
 			errors.add(error);
 			entitiesToErrorListMap.put(entityId,errors);
 		}
-		
+	
+		//Populating the validation data
 		entityId = null;
 		for(Object[] objs : validations )
 		{
@@ -542,8 +548,6 @@ public class DashBoardServiceImpl implements DashBoardService {
 					Collections.sort(errors, (error1,error2) -> error1.getErrorId().compareTo(error2.getErrorId()));
 					validation.setErrors(errors);
 				}
-				
-				
 				List<EntityValidationDto> entities = chart.getEntities();
 				if(entities ==null)
 				{
