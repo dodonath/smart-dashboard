@@ -134,9 +134,11 @@ insert into ENVIRONMENT_DETAILS_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   environmentDisplayOrder,
+   environmentDetails
 )
-values (1,'csr','Admin','Admin',10000000,100000,1);
+values (1,'csr','Admin','Admin',10000000,100000,1,2,'MiddleTier1');
 insert into ENVIRONMENT_DETAILS_MASTER
 (
    environmentId,
@@ -145,9 +147,11 @@ insert into ENVIRONMENT_DETAILS_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   environmentDisplayOrder,
+   environmentDetails
 )
-values (2,'rbm','Admin','Admin',10000000,100000,1);
+values (2,'rbm','Admin','Admin',10000000,100000,1,3,'Target');
 
 insert into ENVIRONMENT_DETAILS_MASTER
 (
@@ -157,9 +161,11 @@ insert into ENVIRONMENT_DETAILS_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   environmentDisplayOrder,
+   environmentDetails
 )
-values (3,'omnia','Admin','Admin',10000000,100000,1);
+values (3,'omnia','Admin','Admin',10000000,100000,1,1,'Source');
 
 insert into MigrationHistory
 (

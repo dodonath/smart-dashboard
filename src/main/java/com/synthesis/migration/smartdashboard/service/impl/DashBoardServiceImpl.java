@@ -115,9 +115,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 		if(repoData!=null)
 		{
 			FalloutProgressChartDto fallOutDto = null;
-			Map<Long,FalloutProgressChartDto> migrationIdFalloutMap = new LinkedHashMap<>();
-			Map<String,List<ProgressionDto>> migrationIdAndEntityIdMappingForProgression = new LinkedHashMap<>();
-			Map<Long,Map<Long,EntityDto>> migrationIdMappingForEntities = new LinkedHashMap<>();
+			Map<Long,FalloutProgressChartDto> migrationIdFalloutMap = new HashMap<>();
+			Map<String,List<ProgressionDto>> migrationIdAndEntityIdMappingForProgression = new HashMap<>();
+			Map<Long,Map<Long,EntityDto>> migrationIdMappingForEntities = new HashMap<>();
 			EntityDto entity = null;
 			List<ProgressionDto> progressionList = null;
 			Map<Long, EntityDto> entityMap = null;
@@ -159,7 +159,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 				if(entityMap==null)
 				{
-					entityMap = new LinkedHashMap<>();
+					entityMap = new HashMap<>();
 				}
 				if(entityMap.get(entityId) == null)
 				{
@@ -560,6 +560,15 @@ public class DashBoardServiceImpl implements DashBoardService {
 		}
 		
 		return charts;
+	}
+
+	@Override
+	public List<String> getEnvironmentDetails() {
+		List<String> list = new ArrayList<>();
+		list.add("Migration Date");
+		List<EnvironmentDetailsMaster> environments = environmentDetailsRepository.findAllByOrderByEnvironmentDisplayOrderAsc();
+		environments.stream().forEach(env -> list.add(env.getEnvironmentType()));
+		return list;
 	}
 
 }

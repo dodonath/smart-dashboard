@@ -43,6 +43,8 @@ public interface DashBoardService {
 	FetchErrorResponseDto fetchErrorData(FetchErrorRequestDto request);
 
 	List<ValidationChartDto> fetchMigrationValidationData() throws Exception, CustomValidationException;
+
+	List<String> getEnvironmentDetails();
 	
 	
 

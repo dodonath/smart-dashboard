@@ -125,3 +125,248 @@
 2018-12-26 14:44:02 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchErrorData...entering
 2018-12-26 14:44:02 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchErrorData...exiting
 2018-12-26 14:44:02 - com.synthesis.migration.smartdashboard.controller.DashBoardController downloadErrorData...exiting
+2018-12-26 15:21:01 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 12436 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 15:21:01 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 15:21:01 - No active profile set, falling back to default profiles: default
+2018-12-26 15:21:12 - Started SmartDashboardApplication in 12.009 seconds (JVM running for 13.243)
+2018-12-26 15:21:38 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 15:21:38 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 15:21:38 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 15:21:38 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...exiting
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...exiting
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...exiting
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...exiting
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...exiting
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...entering
+2018-12-26 15:22:27 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...exiting
+2018-12-26 15:22:28 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...exiting
+2018-12-26 15:22:28 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...exiting
+2018-12-26 15:22:31 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 15:22:31 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 15:22:31 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 15:22:31 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:04:45 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 6760 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:04:46 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:04:46 - No active profile set, falling back to default profiles: default
+2018-12-26 16:05:27 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 12216 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:05:27 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:05:27 - No active profile set, falling back to default profiles: default
+2018-12-26 16:06:35 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 2792 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:06:35 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:06:35 - No active profile set, falling back to default profiles: default
+2018-12-26 16:09:48 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 8188 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:09:48 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:09:48 - No active profile set, falling back to default profiles: default
+2018-12-26 16:10:00 - Started SmartDashboardApplication in 11.835 seconds (JVM running for 12.815)
+2018-12-26 16:10:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:10:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:10:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:10:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...entering
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...exiting
+2018-12-26 16:10:39 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...exiting
+2018-12-26 16:10:41 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...entering
+2018-12-26 16:10:41 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...entering
+2018-12-26 16:10:41 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...exiting
+2018-12-26 16:10:41 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...exiting
+2018-12-26 16:10:48 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:10:48 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:10:48 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:10:48 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:32:09 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 13484 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:32:09 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:32:09 - No active profile set, falling back to default profiles: default
+2018-12-26 16:34:37 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 14188 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:34:37 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:34:37 - No active profile set, falling back to default profiles: default
+2018-12-26 16:35:57 - Starting SmartDashboardApplication on LAPTOP-083FN7VV with PID 8732 (C:\dodo_nath\smart-dashboard\target\classes started by Dodo Nath in C:\dodo_nath\smart-dashboard)
+2018-12-26 16:35:57 - Running with Spring Boot v2.1.1.RELEASE, Spring v5.1.3.RELEASE
+2018-12-26 16:35:57 - No active profile set, falling back to default profiles: default
+2018-12-26 16:36:07 - Started SmartDashboardApplication in 10.351 seconds (JVM running for 11.36)
+2018-12-26 16:36:16 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:36:16 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:36:16 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:36:16 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:36:16 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:36:16 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:43:24 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:44:49 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:06 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:45:18 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:47:13 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepositoryImpl getCount...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.omniadb.OmniaRepositoryImpl getCount...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...entering
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.dao.rbmdb.RbmRepositoryImpl getCount...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl persistsAllData...exiting
+2018-12-26 16:49:35 - com.synthesis.migration.smartdashboard.controller.DashBoardController persistsAllData...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchMigrationValidationData...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchMigrationValidationData...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl getEnvironmentDetails...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchFalloutDataFromSmart...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchProgressChart...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...entering
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.service.impl.DashBoardServiceImpl fetchEntityData...exiting
+2018-12-26 16:49:43 - com.synthesis.migration.smartdashboard.controller.DashBoardController fetchEntityData...exiting

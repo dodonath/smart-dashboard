@@ -19,6 +19,7 @@ import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
 import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorRequestDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorResponseDto;
+import com.synthesis.migration.smartdashboard.dto.ProgessWrapperDto;
 import com.synthesis.migration.smartdashboard.dto.TalendErrorDetailsDto;
 import com.synthesis.migration.smartdashboard.dto.ValidationChartDto;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
@@ -37,11 +38,12 @@ public class DashBoardController {
 
 	@CrossOrigin
 	@RequestMapping(value = "/fetchProgressChart",  method = RequestMethod.GET)
-	public ResponseEntity<List<FalloutProgressChartDto>> fetchProgressChart(HttpServletRequest httpServletRequest) throws CustomValidationException
+	public ResponseEntity<ProgessWrapperDto> fetchProgressChart(HttpServletRequest httpServletRequest) throws CustomValidationException
 	{
-
-		List<FalloutProgressChartDto> fallouts = dashBoardService.fetchFalloutDataFromSmart();
-		return new ResponseEntity<>(fallouts, HttpStatus.OK);
+		ProgessWrapperDto wrapperDto = new ProgessWrapperDto();
+		wrapperDto.setProgressChartsHeader(dashBoardService.getEnvironmentDetails());
+		wrapperDto.setProgressChartsValues(dashBoardService.fetchFalloutDataFromSmart());
+		return new ResponseEntity<>(wrapperDto, HttpStatus.OK);
 	}
 
 	@CrossOrigin

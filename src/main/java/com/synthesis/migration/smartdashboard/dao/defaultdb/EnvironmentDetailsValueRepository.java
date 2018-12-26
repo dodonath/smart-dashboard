@@ -36,6 +36,6 @@ public interface EnvironmentDetailsValueRepository extends CrudRepository<Enviro
 			"inner join env.environmentDetails en " +
 			"where " + 
 			"emd.entityMaster.entityId = :entityId " +*/
-			"order by m.createdAt asc,m.migrationId asc,emd.entityMaster.entityId asc ")
+			"order by m.createdAt asc,m.migrationId asc,emd.entityMaster.entityId asc,env.environmentDetails.environmentDisplayOrder asc")
 	public List<Object[]> findDetailsByEntityIdCustomQuery();
 }

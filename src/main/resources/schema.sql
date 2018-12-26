@@ -72,6 +72,8 @@ create table ENVIRONMENT_DETAILS_MASTER
    createdAt bigint ,
    updatedAt bigint ,
    active boolean not null,
+   environmentDisplayOrder bigint not null,
+   environmentDetails varchar(255),
    primary key(environmentId)
 );
 

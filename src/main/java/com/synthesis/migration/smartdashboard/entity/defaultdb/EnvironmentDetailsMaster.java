@@ -44,6 +44,12 @@ public class EnvironmentDetailsMaster implements Serializable {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	@Column(name = "active")
 	private Boolean active;
+	
+	@Column(name="environmentDisplayOrder")
+	private Long environmentDisplayOrder;
+	
+	@Column(name="environmentDetails")
+	private String environmentDetails;
 
 	public Long getEnvironmentId() {
 		return environmentId;
@@ -100,6 +106,24 @@ public class EnvironmentDetailsMaster implements Serializable {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+
+	public Long getEnvironmentDisplayOrder() {
+		return environmentDisplayOrder;
+	}
+
+	public void setEnvironmentDisplayOrder(Long environmentDisplayOrder) {
+		this.environmentDisplayOrder = environmentDisplayOrder;
+	}
+
+	public String getEnvironmentDetails() {
+		return environmentDetails;
+	}
+
+	public void setEnvironmentDetails(String environmentDetails) {
+		this.environmentDetails = environmentDetails;
+	}
+	
+	
 	
 	
 
