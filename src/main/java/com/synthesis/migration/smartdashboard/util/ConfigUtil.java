@@ -23,7 +23,6 @@ import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
@@ -181,14 +180,14 @@ public class ConfigUtil {
 		try 
 		{
 
-			HeaderColumnNameMappingStrategy<T> headerColumnName = new HeaderColumnNameMappingStrategy<>();
+			/*HeaderColumnNameMappingStrategy<T> headerColumnName = new HeaderColumnNameMappingStrategy<>();
 			headerColumnName.setType(classNm);
-			headerColumnName.generateHeader();
+			headerColumnName.generateHeader();*/
 			
 			StatefulBeanToCsv<T> btcsv = new StatefulBeanToCsvBuilder<T>(writer)
-                    .withQuotechar(CSVWriter.DEFAULT_QUOTE_CHARACTER)
-                    .withMappingStrategy(headerColumnName)
-                    .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                   // .withQuotechar(CSVWriter.DEFAULT_QUOTE_CHARACTER)
+                   // .withMappingStrategy(headerColumnName)
+                   // .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
                     .build();
 			btcsv.write(list);
 		}
