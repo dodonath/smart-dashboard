@@ -20,8 +20,8 @@ public interface DataRejectionDetailsRepository extends CrudRepository<DataRejec
 			+ "from com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails d "
 			+ "where "
 			+ "d.migrationHistory.migrationId=:migrationId and "
-			+ "d.entity.entityId=:entityId and "
-			+ "d.errorMaster.errorCode=:errorCode "
+			+ "d.entity.entityId=:entityId and ((:errorCode IS NULL ) OR (d.errorMaster.errorCode=:errorCode )) "
+			//+ "d.errorMaster.errorCode=:errorCode "
 			+ "")
 	 Page<TalendErrorDetailsDto> findErrorDetails(
 			 @Param("migrationId") Long migrationId, 

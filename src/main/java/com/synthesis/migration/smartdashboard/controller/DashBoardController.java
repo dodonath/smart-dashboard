@@ -51,7 +51,7 @@ public class DashBoardController {
 	
 	@CrossOrigin
 	@RequestMapping(value = "/fetchErrorData", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ResponseEntity<FetchErrorResponseDto> fetchErrorData(@RequestBody FetchErrorRequestDto request,
+	public ResponseEntity<FetchErrorResponseDto> fetchErrorData(@RequestBody(required = false) FetchErrorRequestDto request,
 			HttpServletRequest httpServletRequest) throws CustomValidationException
 	{
 		FetchErrorResponseDto errors = dashBoardService.fetchErrorData(request);
