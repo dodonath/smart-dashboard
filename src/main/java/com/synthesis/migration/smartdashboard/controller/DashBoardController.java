@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.synthesis.migration.smartdashboard.dto.EntityMasterDto;
-import com.synthesis.migration.smartdashboard.dto.FalloutProgressChartDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorRequestDto;
 import com.synthesis.migration.smartdashboard.dto.FetchErrorResponseDto;
 import com.synthesis.migration.smartdashboard.dto.ProgessWrapperDto;
@@ -70,9 +69,7 @@ public class DashBoardController {
 	{
 
 		String csvFileName = "errors.csv";
-
 		response.setContentType("text/csv");
-
 		// creates mock data
 		String headerKey = "Content-Disposition";
 		String headerValue = String.format("attachment; filename=\"%s\"",csvFileName);
