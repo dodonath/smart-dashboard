@@ -34,7 +34,7 @@ public interface DashBoardService {
 
 	String persistsAllData() throws CustomValidationException, Exception;
 
-	Boolean persistsTalendLogsIntoSystem(MigrationHistory history, Long timestamp)
+	Boolean persistsLogsIntoSystem(MigrationHistory history, Long timestamp)
 			throws CustomValidationException, Exception;
 
 	Boolean persistsFalloutDataFromSystem(MigrationHistory history, Long timestamp)
@@ -42,7 +42,7 @@ public interface DashBoardService {
 
 	FetchErrorResponseDto fetchErrorData(FetchErrorRequestDto request);
 
-	List<ValidationChartDto> fetchMigrationValidationData() throws Exception, CustomValidationException;
+	List<ValidationChartDto> fetchMigrationValidationData(String source) throws Exception, CustomValidationException;
 
 	List<String> getEnvironmentDetails();
 	

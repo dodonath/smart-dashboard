@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name="DATA_VALIDATION_DETAILS")
+@Table(name="DATA_VALIDATION_TRANSFORM_DETAILS")
 public class DataValidationDetails implements Serializable{
 
 	/**
@@ -74,8 +74,6 @@ public class DataValidationDetails implements Serializable{
 	@Column(name = "active")
 	private Boolean active;
 	
-	@Column(name="source")
-	private String source;
 
 	public Long getValidationId() {
 		return validationId;
@@ -181,13 +179,7 @@ public class DataValidationDetails implements Serializable{
 		this.active = active;
 	}
 
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
+	
 
 	public Long getLoadedCount() {
 		return loadedCount;

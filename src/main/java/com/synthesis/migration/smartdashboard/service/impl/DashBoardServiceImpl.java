@@ -4,14 +4,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +25,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import com.synthesis.migration.smartdashboard.dao.csrdb.CsrRepository;
 import com.synthesis.migration.smartdashboard.dao.defaultdb.DataRejectionDetailsRepository;
@@ -58,6 +63,7 @@ import com.synthesis.migration.smartdashboard.entity.defaultdb.MigrationHistory;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 import com.synthesis.migration.smartdashboard.service.DashBoardService;
 import com.synthesis.migration.smartdashboard.util.ConfigUtil;
+import com.synthesis.migration.smartdashboard.util.DashBoardConstants;
 
 
 @Service
@@ -65,7 +71,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 
 	private static final String ADMIN = "Admin";
-	private static final String TALEND_SOURCE = "Talend";
+	
 
 	@Autowired
 	private EntityMasterRepository entityMasterRepository;
@@ -329,21 +335,71 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	@Override
 	@Transactional(rollbackFor= {Exception.class,CustomValidationException.class},propagation=Propagation.REQUIRED,transactionManager = "defaultSqlTransactionManager")
-	public Boolean persistsTalendLogsIntoSystem(MigrationHistory history,Long timestamp) throws CustomValidationException,Exception{
+	public Boolean persistsLogsIntoSystem(MigrationHistory history,Long timestamp) throws CustomValidationException,Exception{
 
 		//Get the master data for 
-		Map<String, EntityMaster> masterEntitiesMap = ConfigUtil.populateListToMapWithFieldNameKey(entityMasterRepository.findAll(), "entityCode");
+		List<EntityMaster> entities = entityMasterRepository.findAll();
+		Map<String, EntityMaster> masterEntitiesMap = ConfigUtil.populateListToMapWithFieldNameKey(entities, "entityCodeInValidation");
 		Map<String, ErrorMaster> masterErrorsMap = ConfigUtil.populateListToMapWithFieldNameKey(errorMasterRepository.findAll(), "errorCode");
+		Map<String, EntityMaster> entityCodeInTargetMap = ConfigUtil.populateListToMapWithFieldNameKey(entities, "entityCodeInTarget");
+
 
 		Map<String,List<TalendJobDetailsDto>> talendJobMap = new HashMap<>();
 		Map<String,List<TalendErrorDetailsDto>> talendErrorMap = new HashMap<>();
+		Map<String,List<String>> concurrentMap = new ConcurrentHashMap<>();
 
-		//Get the parsed the CSV
-		fetchAndParseTalendLogs(talendJobMap,talendErrorMap,masterEntitiesMap);
+
+		List<Runnable> tasks = new ArrayList<>();
+		tasks.add(() -> fetchAndParseTalendLogs(talendJobMap,talendErrorMap,masterEntitiesMap));
+		tasks.add(() -> ConfigUtil.parseAndFetchTargetData("./config/target_rbm_logs/",entityCodeInTargetMap,masterErrorsMap,concurrentMap));
+
+		ExecutorService service = Executors.newFixedThreadPool(3);
+		CompletableFuture.allOf(
+				tasks
+				.stream()
+				.map(task -> CompletableFuture.runAsync(task, service))
+				.toArray(CompletableFuture[]::new))
+		.join();  
+		service.shutdown();
+
+
+		List<DataRejectionDetails> listTargetRejectionDatas = null;
+		Map<String,Long> loadedErrorCountMap = new HashMap<>();
+		
+		//parse and form target data
+		if(MapUtils.isNotEmpty(concurrentMap))
+		{
+			listTargetRejectionDatas = concurrentMap.entrySet().stream().map(entry -> { 
+
+				List<String> values = entry.getValue();
+				loadedErrorCountMap.put(entry.getKey(), CollectionUtils.isNotEmpty(values) ?Long.valueOf(values.size())  : 0l);
+				return values;
+			})
+					.flatMap(f -> f.stream())
+					.map(data -> {
+						String arr[] = StringUtils.split(data, "\\|");
+						String entityCode = arr[0];
+						DataRejectionDetails reject = new DataRejectionDetails();
+						reject.setActive(Boolean.TRUE);
+						reject.setCreatedAt(timestamp);
+						reject.setCreatedBy(ADMIN);
+						reject.setUpdatedAt(timestamp);
+						reject.setUpdatedBy(ADMIN);
+						reject.setEntity(entityCodeInTargetMap.get(entityCode));
+						reject.setMigrationHistory(history);
+						reject.setErrorMaster(masterErrorsMap.get(arr[2]));
+						reject.setSystemErrorDetails(arr[3]);
+						reject.setRejectionAccountId(arr[1]!=null ? Long.valueOf(arr[1]) : null);
+						reject.setSource(DashBoardConstants.RBM_SOURCE);
+						return reject;
+					})
+					.collect(Collectors.toList());
+		}
 
 		List<DataValidationDetails> details = new ArrayList<>();
 		List<DataRejectionDetails> rejections = new ArrayList<>();
 
+		//This is for validation data
 		if(MapUtils.isNotEmpty(talendJobMap))
 		{
 			talendJobMap.entrySet().stream().forEach(entry -> 
@@ -358,11 +414,13 @@ public class DashBoardServiceImpl implements DashBoardService {
 				valid.setUpdatedBy(ADMIN);
 				valid.setEntity(masterEntitiesMap.get(entry.getKey()));
 				valid.setMigrationHistory(history);
-				valid.setSource(TALEND_SOURCE);
+				Long loadedErrorCount = loadedErrorCountMap.get(valid.getEntity().getEntityCodeInTarget());
+				valid.setLoadedCount(valid.getCollectedCount()==null || loadedErrorCount ==null ? null : Math.subtractExact(valid.getCollectedCount(),loadedErrorCount) );
 				details.add(valid);
 			});
 		}
 
+		//This is for rejection data of talend Logs
 		if(MapUtils.isNotEmpty(talendErrorMap))
 		{
 			talendErrorMap.entrySet().stream().forEach(entry -> 
@@ -381,7 +439,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 					reject.setEntity(entity);
 					reject.setMigrationHistory(history);
 					reject.setErrorMaster(masterErrorsMap.get(error.getErrorCode()));
-					reject.setSource(TALEND_SOURCE);
+					reject.setSource(DashBoardConstants.TALEND_SOURCE);
 					rejections.add(reject);
 				});
 			});
@@ -390,6 +448,10 @@ public class DashBoardServiceImpl implements DashBoardService {
 		if(CollectionUtils.isNotEmpty(rejections))
 		{
 			dataRejectionRepository.saveAll(rejections);
+		}
+		if(CollectionUtils.isNotEmpty(listTargetRejectionDatas))
+		{
+			dataRejectionRepository.saveAll(listTargetRejectionDatas);
 		}
 
 		if(CollectionUtils.isNotEmpty(details))
@@ -401,6 +463,8 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 	}
 
+
+
 	private void fetchAndParseTalendLogs(Map<String, List<TalendJobDetailsDto>> talendJobMap,
 			Map<String, List<TalendErrorDetailsDto>> talendErrorMap, Map<String, EntityMaster> masterEntitiesMap) 
 	{
@@ -411,7 +475,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		{
 			for(Map.Entry<String, EntityMaster> entry : masterEntitiesMap.entrySet())
 			{
-				entityCode = entry.getValue().getEntityCode();
+				entityCode = entry.getValue().getEntityCodeInValidation();
 				keyNm = entry.getKey();
 				jobPath = "./config/talend_logs/"+keyNm+"RunDetails.csv";
 				errorPath = "./config/talend_logs/"+keyNm+"Error.csv";
@@ -444,7 +508,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		Boolean falloutMsg = persistsFalloutDataFromSystem(history, timestamp);
 
 		//persists Talend data
-		Boolean talendMsg = persistsTalendLogsIntoSystem(history, timestamp);
+		Boolean talendMsg = persistsLogsIntoSystem(history, timestamp);
 
 		if(!falloutMsg.equals(talendMsg))
 		{
@@ -469,7 +533,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 		Page<TalendErrorDetailsDto> result = dataRejectionRepository.findErrorDetails(request.getMigrationId(), 
 				request.getEntityId(), request.getErrorCode(), 
 				pageRequest);
-		
+
 
 		if(result!=null && CollectionUtils.isNotEmpty(result.getContent()))
 		{
@@ -482,37 +546,36 @@ public class DashBoardServiceImpl implements DashBoardService {
 	}
 
 	@Override
-	public List<ValidationChartDto> fetchMigrationValidationData() throws Exception, CustomValidationException {
+	public List<ValidationChartDto> fetchMigrationValidationData(String source) throws Exception, CustomValidationException {
 		List<Object[]> validations = dataValidationRepository.findLatestValidationDetails();
-		List<Object[]> rejections = dataRejectionRepository.findLatestRejectionDetails();
-		
+		List<Object[]> rejections = dataRejectionRepository.findLatestRejectionDetails(source);
+
 		List<ValidationChartDto> charts = new ArrayList<>();
 		ValidationChartDto chart = new ValidationChartDto();
 		charts.add(chart);
 		Long entityId = null;
 		Map<Long,EntityValidationDto> entitiesToValidationMap = new HashMap<>();
 		Map<Long,List<ValdationErrorDto>> entitiesToErrorListMap = new HashMap<>();
-		
+
 		//Populating the rejection data
 		for(Object[] objs : rejections)
 		{
-			
+
 			ValdationErrorDto error = new ValdationErrorDto();
 			error.setErrorId(objs[2]!=null ? (Long) objs[2] : null);
 			error.setErrorCode(objs[3]!=null ? objs[3].toString() : null);
 			error.setErrorCount(objs[4]!=null ? (Long) objs[4] : null);
-			
+
 			entityId = objs[1]!=null ? (Long) objs[1] : null;
 			List<ValdationErrorDto> errors =  entitiesToErrorListMap.get(entityId);
 			if(errors == null)
 			{
 				errors = new ArrayList<>();
-				
 			}
 			errors.add(error);
 			entitiesToErrorListMap.put(entityId,errors);
 		}
-	
+
 		//Populating the validation data
 		entityId = null;
 		for(Object[] objs : validations )
@@ -524,9 +587,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 				chart.setClientCode(objs[2]!=null ? objs[2].toString() : null);
 				chart.setMigrationDescription(objs[3]!=null ? objs[3].toString() : null);
 			}
-			
+
 			entityId = objs[4]!=null ? (Long) objs[4] : null;
-			
+
 			//Adding entities and validation in the JSON
 			if(entitiesToValidationMap.get(entityId) == null)
 			{
@@ -535,12 +598,12 @@ public class DashBoardServiceImpl implements DashBoardService {
 				status.setValidated(objs[7]!=null ? (Long) objs[7] : null);
 				status.setTransformed(objs[8]!=null ? (Long) objs[8] : null);
 				status.setLoaded(objs[9]!=null ? (Long) objs[9] : null);
-				
+
 				EntityValidationDto  validation = new EntityValidationDto();
 				validation.setEntityId(entityId);
 				validation.setEntityType(objs[5]!=null ? objs[5].toString() : null);
 				validation.setMigrationStats(status);
-				
+
 				List<ValdationErrorDto> errors =  entitiesToErrorListMap.get(entityId);
 				if(CollectionUtils.isNotEmpty(errors))
 				{
@@ -557,7 +620,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 				entitiesToValidationMap.put(entityId, validation);
 			}
 		}
-		
+
 		return charts;
 	}
 
@@ -569,5 +632,14 @@ public class DashBoardServiceImpl implements DashBoardService {
 		environments.stream().forEach(env -> list.add(env.getEnvironmentType()));
 		return list;
 	}
+
+
+
+	public static void main(String args[])
+	{
+		String str = "Migprodeventtypedetails|34520060|FDU-00013|API validation error: The event source start date and time (24/11/2014 12:00:00) is before the product start date (09/06/2015 12:00:00).";
+		Arrays.asList(StringUtils.split(str,"|")).stream().forEach(val -> System.out.println(val));
+	}
+
 
 }

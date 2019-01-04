@@ -38,8 +38,8 @@ public interface DataRejectionDetailsRepository extends CrudRepository<DataRejec
 			"join dr.entity en " + 
 			"join dr.errorMaster em " + 
 			"where m.migrationId = (select max(dr1.migrationHistory.migrationId) from com.synthesis.migration.smartdashboard.entity.defaultdb.DataRejectionDetails dr1) " + 
-			"")
-	 List<Object[]> findLatestRejectionDetails();
+			"and dr.source=:source ")
+	 List<Object[]> findLatestRejectionDetails( @Param("source")String errorCode);
 	
 }
 

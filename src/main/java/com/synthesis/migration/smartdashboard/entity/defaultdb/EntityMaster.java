@@ -47,8 +47,12 @@ public class EntityMaster implements Serializable{
 	@Column(name = "active")
 	private Boolean active;
 	
-	@Column(name="entityCode")
-	private String entityCode;
+	@Column(name="entityCodeInValidation")
+	private String entityCodeInValidation;
+	
+	@Column(name="entityCodeInTarget")
+	private String entityCodeInTarget;
+
 
 	public Long getEntityId() {
 		return entityId;
@@ -114,13 +118,24 @@ public class EntityMaster implements Serializable{
 		this.active = active;
 	}
 
-	public String getEntityCode() {
-		return entityCode;
+	public String getEntityCodeInValidation() {
+		return entityCodeInValidation;
 	}
 
-	public void setEntityCode(String entityCode) {
-		this.entityCode = entityCode;
+	public void setEntityCodeInValidation(String entityCodeInValidation) {
+		this.entityCodeInValidation = entityCodeInValidation;
 	}
+
+	public String getEntityCodeInTarget() {
+		return entityCodeInTarget;
+	}
+
+	public void setEntityCodeInTarget(String entityCodeInTarget) {
+		this.entityCodeInTarget = entityCodeInTarget;
+	}
+
+
+	
 	
 	
 	

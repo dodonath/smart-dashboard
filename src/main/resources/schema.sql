@@ -3,7 +3,8 @@ create table ENTITY_MASTER
 (
    entityId bigint AUTO_INCREMENT not null,
    entityType varchar(255) not null,
-   entityCode varchar(255) not null,
+   entityCodeInValidation varchar(255) not null,
+   entityCodeInTarget varchar(255) not null,
    entityDescription varchar(255),
    createdBy varchar(255),
    updatedBy varchar(255),
@@ -13,7 +14,7 @@ create table ENTITY_MASTER
    primary key(entityId)
 );
 
-create table DATA_VALIDATION_DETAILS
+create table DATA_VALIDATION_TRANSFORM_DETAILS
 (
    validationId bigint AUTO_INCREMENT not null,
    entityId bigint not null,
@@ -29,7 +30,6 @@ create table DATA_VALIDATION_DETAILS
    createdAt bigint ,
    updatedAt bigint ,
    active boolean not null,
-   source varchar(255),
    primary key(validationId)
 );
 
@@ -46,6 +46,7 @@ create table DATA_REJECTION_DETAILS
    updatedAt bigint ,
    active boolean not null,
    source varchar(255),
+   systemErrorDetails varchar(255),
    primary key(rejectionId)
 );
 
@@ -60,6 +61,7 @@ create table ERROR_MASTER
    createdAt bigint ,
    updatedAt bigint ,
    active boolean not null,
+   source varchar(255),
    primary key(errorId)
 );
 

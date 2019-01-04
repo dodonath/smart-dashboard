@@ -8,9 +8,10 @@ insert into ERROR_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   source
 )
-values (1,'EE0001','Account has product with START_DAT is after END_DAT',1,'Admin','Admin',10000000,100000,1);
+values (1,'EE0001','Account has product with START_DAT is after END_DAT',1,'Admin','Admin',10000000,100000,1,'Talend');
 
 insert into ERROR_MASTER
 (
@@ -22,9 +23,10 @@ insert into ERROR_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   source
 )
-values (2,'EE0002','Account has one of the fields as NULL',1,'Admin','Admin',10000000,100000,1);
+values (2,'EE0002','Account has one of the fields as NULL',1,'Admin','Admin',10000000,100000,1,'Talend');
 
 insert into ERROR_MASTER
 (
@@ -36,24 +38,10 @@ insert into ERROR_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   source
 )
-values (3,'EE0003','Account has product with START_DAT set to NULL',1,'Admin','Admin',10000000,100000,1);
-
-
-insert into ERROR_MASTER
-(
-   errorId,
-   errorCode,
-   errorMessage,
-   entityId,
-   createdBy,
-   updatedBy,
-   createdAt,
-   updatedAt,
-   active
-)
-values (4,'EE0004','Customer with product is present in OMNIA_CUSTOMERPRODUCTATTR_EXT but not in OMNIA_CUSTOMERPRODUCT_EXT',2,'Admin','Admin',10000000,100000,1);
+values (3,'EE0003','Account has product with START_DAT set to NULL',1,'Admin','Admin',10000000,100000,1,'Talend');
 
 
 insert into ERROR_MASTER
@@ -66,9 +54,11 @@ insert into ERROR_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   source
 )
-values (5,'EE0005','Account has product with BILLED_TO_DATE before product START_DATE',1,'Admin','Admin',10000000,100000,1);
+values (4,'EE0004','Customer with product is present in OMNIA_CUSTOMERPRODUCTATTR_EXT but not in OMNIA_CUSTOMERPRODUCT_EXT',2,'Admin','Admin',10000000,100000,1,'Talend');
+
 
 insert into ERROR_MASTER
 (
@@ -80,9 +70,10 @@ insert into ERROR_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   source
 )
-values (6,'EE0006','Customer record in OMNIA_CUSTOMERATTRIBUTES_EXT but not in OMNIA_CUSTOMER_EXT',2,'Admin','Admin',10000000,100000,1);
+values (5,'EE0005','Account has product with BILLED_TO_DATE before product START_DATE',1,'Admin','Admin',10000000,100000,1,'Talend');
 
 insert into ERROR_MASTER
 (
@@ -94,9 +85,89 @@ insert into ERROR_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active
+   active,
+   source
 )
-values (7,'EE0007','Customer record in OMNIA_CUSTOMERPRODUCTATTR_EXT but no ACCOUNT_NUMBER in OMNIA_CUSTOMERPRODUCT_EXT',2,'Admin','Admin',10000000,100000,1);
+values (6,'EE0006','Customer record in OMNIA_CUSTOMERATTRIBUTES_EXT but not in OMNIA_CUSTOMER_EXT',2,'Admin','Admin',10000000,100000,1,'Talend');
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active,
+   source
+)
+values (7,'EE0007','Customer record in OMNIA_CUSTOMERPRODUCTATTR_EXT but no ACCOUNT_NUMBER in OMNIA_CUSTOMERPRODUCT_EXT',2,'Admin','Admin',10000000,100000,1,'Talend');
+
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active,
+   source
+)
+values (8,'FDU-00013','API validation error: The event source start date and time is before the product start date',1,'Admin','Admin',10000000,100000,1,'Rbm');
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active,
+   source
+)
+values (9,'FDUPETD-00002','Failed to find Customer product details for customer',1,'Admin','Admin',10000000,100000,1,'Rbm');
+
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active,
+   source
+)
+values (10,'ACC-00002','Failed to find Customer product details for customer',2,'Admin','Admin',10000000,100000,1,'Rbm');
+
+
+insert into ERROR_MASTER
+(
+   errorId,
+   errorCode,
+   errorMessage,
+   entityId,
+   createdBy,
+   updatedBy,
+   createdAt,
+   updatedAt,
+   active,
+   source
+)
+values (11,'ACC-0013','Failed to find Customer product details for customer',2,'Admin','Admin',10000000,100000,1,'Rbm');
+
 
 
 insert into ENTITY_MASTER
@@ -108,9 +179,9 @@ insert into ENTITY_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active,entityCode
+   active,entityCodeInValidation,entityCodeInTarget
 )
-values (1,'Accounts','Accounts desc','Admin','Admin',10000000,100000,1,'Accounts');
+values (1,'Accounts','Accounts desc','Admin','Admin',10000000,100000,1,'Accounts','Accounts');
 
 insert into ENTITY_MASTER
 (
@@ -121,9 +192,9 @@ insert into ENTITY_MASTER
    updatedBy,
    createdAt,
    updatedAt,
-   active,entityCode
+   active,entityCodeInValidation,entityCodeInTarget
 )
-values (2,'Customer','Customer desc','Admin','Admin',10000000,100000,1,'Customer');
+values (2,'Customer','Customer desc','Admin','Admin',10000000,100000,1,'Customer','Migprodeventtypedetails');
 
 
 insert into ENVIRONMENT_DETAILS_MASTER

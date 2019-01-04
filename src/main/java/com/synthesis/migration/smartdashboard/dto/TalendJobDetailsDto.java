@@ -5,7 +5,7 @@ public class TalendJobDetailsDto {
 	private Long collectedCount;
 	private Long validatedCount;
 	private Long transformedCount;
-	private Long loadedCount;
+	//private Long loadedCount;
 	private String startedAt;
 	private String endedAt;
 	
@@ -41,12 +41,7 @@ public class TalendJobDetailsDto {
 		this.endedAt = endedAt;
 	}
 	
-	public Long getLoadedCount() {
-		return loadedCount;
-	}
-	public void setLoadedCount(Long loadedCount) {
-		this.loadedCount = loadedCount;
-	}
+
 	public String toString()
 	{
 		return "TalendJobDetailsDto = { \n"

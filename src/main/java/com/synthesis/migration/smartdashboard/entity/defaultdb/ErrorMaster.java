@@ -36,6 +36,10 @@ public class ErrorMaster implements Serializable{
 	private String errorMessage;
 	
 	
+	@Column(name="source")
+	private String source;
+	
+	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="entityId")
 	private EntityMaster entityMaster;
@@ -126,6 +130,14 @@ public class ErrorMaster implements Serializable{
 
 	public void setActive(Boolean active) {
 		this.active = active;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 	

@@ -63,6 +63,9 @@ public class DataRejectionDetails implements Serializable {
 	
 	@Column(name="source")
 	private String source;
+	
+	@Column(name="systemErrorDetails")
+	private String systemErrorDetails;
 
 	public Long getRejectionId() {
 		return rejectionId;
@@ -152,6 +155,16 @@ public class DataRejectionDetails implements Serializable {
 		this.source = source;
 	}
 
+	public String getSystemErrorDetails() {
+		return systemErrorDetails;
+	}
+
+	public void setSystemErrorDetails(String systemErrorDetails) {
+		this.systemErrorDetails = systemErrorDetails;
+	}
+
+	
+	
 	
 	
 }

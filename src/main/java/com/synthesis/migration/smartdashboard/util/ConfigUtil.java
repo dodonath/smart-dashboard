@@ -1,5 +1,6 @@
 package com.synthesis.migration.smartdashboard.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -16,9 +17,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +39,8 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto;
 import com.synthesis.migration.smartdashboard.dto.ConfigDto.FalloutDto;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.EntityMaster;
+import com.synthesis.migration.smartdashboard.entity.defaultdb.ErrorMaster;
 
 
 public class ConfigUtil {
@@ -202,6 +210,126 @@ public class ConfigUtil {
 		}
 
 	}
+	
+	
+	public static void listf(String directoryName, List<File> files,List<String> filePath) {
+		File directory = Paths.get(directoryName).toFile();
+
+		// Get all files from a directory.
+		File[] fList = directory.listFiles();
+		if(fList != null)
+			for (File file : fList)
+			{      
+				if (file.isFile()) 
+				{
+					files.add(file);
+					filePath.add(file.getAbsolutePath());
+					System.out.println(file.getAbsolutePath());
+				} 
+				else if (file.isDirectory()) 
+				{
+					listf(file.getAbsolutePath(), files,filePath);
+				}
+			}
+	}
+	
+	
+	
+	public static void parseAndFetchTargetData(String baseDirectory,Map<String, EntityMaster> masterEntitiesMap,Map<String, ErrorMaster> masterErrorsMap, Map<String, List<String>> concurrentMap)
+	{
+			List<String> filesPath = new ArrayList<>();
+			List<File> files = new ArrayList<>();
+			listf(baseDirectory,files,filesPath);
+			
+			ExecutorService service = Executors.newFixedThreadPool(5);
+			CompletableFuture.allOf(
+					filesPath
+					.stream()
+					.map(filepath -> CompletableFuture.runAsync(() -> parseAndStore(concurrentMap, masterEntitiesMap,masterErrorsMap,filepath), service))
+					.toArray(CompletableFuture[]::new))
+			.join();  
+			service.shutdown();
+			//return concurrentMap;
+	}
+
+	
+	private static void parseAndStore(Map<String, List<String>> map, Map<String, EntityMaster> masterEntitiesMap,Map<String, ErrorMaster> masterErrorsMap, String filepath) {
+		
+		File file = new File(filepath); 
+		try(Scanner sc = new Scanner(file)) 
+		{
+			
+			String lineStr = "";
+			String accountId = "";
+			String errorCode = "";
+			String errorDetails = "";
+			String entityCode = "";
+			String [] arrOuter = null;
+			String [] arrInner = null;
+			while (sc.hasNextLine()) 
+			{
+
+				accountId = "";
+				errorCode = "";
+				errorDetails = "";
+				entityCode = "";
+				lineStr = sc.nextLine();
+				arrOuter = StringUtils.split(lineStr, ":");
+				List<String> strList = null;
+
+				if(arrOuter!=null && arrOuter[0]!=null && masterEntitiesMap.containsKey(arrOuter[0]))
+				{
+					entityCode = arrOuter[0];
+					strList = map.get(entityCode);
+					if(CollectionUtils.isEmpty(strList))
+					{
+						strList  = new ArrayList<>();
+					}
+					arrInner = StringUtils.split(arrOuter[1], ",");
+					
+					if(arrInner!=null && arrInner[0]!=null)
+					{
+						accountId = StringUtils.trimAllWhitespace(arrInner[0]);
+						accountId = StringUtils.replace(accountId, "\"", "") ;
+					}
+
+					//read the next line
+					if(sc.hasNextLine())
+					{
+						
+						lineStr = sc.nextLine();
+						arrOuter = StringUtils.split(lineStr, ": ");
+						if(arrOuter!=null && arrOuter[1]!=null)
+						{
+							arrInner = StringUtils.split(arrOuter[1],":") ;
+							errorCode = StringUtils.trimWhitespace(arrInner[0]);
+							errorCode = StringUtils.replace(errorCode, "\"", "") ;
+
+							if(masterErrorsMap.containsKey(errorCode))
+							{
+								errorDetails = StringUtils.trimWhitespace(arrInner[1]);
+								errorDetails = StringUtils.replace(errorDetails, "\"", "") ;
+							}
+						}
+					}
+
+					if(!StringUtils.isEmpty(errorDetails) && !StringUtils.isEmpty(errorCode) && !StringUtils.isEmpty(accountId))
+					{
+						String str = new String(entityCode+"|"+accountId+"|"+errorCode+"|"+errorDetails);
+						strList.add(str);
+						map.put(entityCode, strList);
+						System.out.println(str);
+					}
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	
 	
 	
 

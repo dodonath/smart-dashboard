@@ -24,6 +24,7 @@ import com.synthesis.migration.smartdashboard.dto.ValidationChartDto;
 import com.synthesis.migration.smartdashboard.exception.CustomValidationException;
 import com.synthesis.migration.smartdashboard.service.DashBoardService;
 import com.synthesis.migration.smartdashboard.util.ConfigUtil;
+import com.synthesis.migration.smartdashboard.util.DashBoardConstants;
 
 
 
@@ -90,7 +91,14 @@ public class DashBoardController {
 	@RequestMapping(value = "/fetchMigrationValidationData", method = RequestMethod.GET)
 	public ResponseEntity<List<ValidationChartDto>> fetchMigrationValidationData(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
 	{
-		return new ResponseEntity<>(dashBoardService.fetchMigrationValidationData(), HttpStatus.OK);
+		return new ResponseEntity<>(dashBoardService.fetchMigrationValidationData(DashBoardConstants.TALEND_SOURCE), HttpStatus.OK);
+	}
+	
+	@CrossOrigin
+	@RequestMapping(value = "/fetchMigrationLoadedData", method = RequestMethod.GET)
+	public ResponseEntity<List<ValidationChartDto>> fetchMigrationLoadedData(HttpServletRequest httpServletRequest) throws CustomValidationException,Exception
+	{
+		return new ResponseEntity<>(dashBoardService.fetchMigrationValidationData(DashBoardConstants.RBM_SOURCE), HttpStatus.OK);
 	}
 
 
