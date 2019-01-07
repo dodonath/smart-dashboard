@@ -502,117 +502,115 @@ $(document).ready(function() {
 });
 
 
-
-
-function refreshData()
+function fetchMigrationValidationData()
 {
-	
-    /* */
-    /*API CALL - 1 Current Validation Stats*/
-    var getMigrationValidationData = new XMLHttpRequest();
-    getMigrationValidationData.open('GET', 'http://localhost:8080/dashboard/fetchMigrationValidationData', false);
-    getMigrationValidationData.onload = function() {
-        if (getMigrationValidationData.status >= 200 && getMigrationValidationData.status < 400) {
-            currentValidationData = JSON.parse(getMigrationValidationData.responseText);
-        } else {
-            console.log("We connected to the server, but it returned an error.API-2");
-        }
-    };
-    getMigrationValidationData.onerror = function() {
-        console.log("Connection error");
-    };
-    getMigrationValidationData.send();
-
-    /*API CALL - 2 Current Loaded Stats*/	
-    var getLoadedData = new XMLHttpRequest();
-    getLoadedData.open('GET',host+'dashboard/fetchMigrationLoadedData',false);
-    getLoadedData.onload = function() {
-    	if (getLoadedData.status >= 200 && getLoadedData.status < 400) {
-    		currentLoadedData = JSON.parse(getLoadedData.responseText);
-    	} else {
-    		console.log("We connected to the server, but it returned an error.API-2");
-    	}
-    };
-    getLoadedData.onerror = function() {
-        console.log("Connection error");
-    };
-    getLoadedData.send();
-
-    /*API CALL - 3  Currrent Migration Entities*/
-    var getEntitiesRequest = new XMLHttpRequest();
-    getEntitiesRequest.open('GET', host+'dashboard/fetchEntityData');
-    getEntitiesRequest.onload = function() {
-        if (getEntitiesRequest.status >= 200 && getEntitiesRequest.status < 400) {
-            curMigEntityDetails = JSON.parse(getEntitiesRequest.responseText);
-            var selectValidationElement = document.getElementById('selectValidationEntities');
-            var selectLoadedElement = document.getElementById('selectLoadedEntities');
-            selectValidationElement.innerHTML = selectValidationElement.innerHTML + '<option value="">Select Entity</option>';
-            selectLoadedElement.innerHTML = selectLoadedElement.innerHTML + '<option value="">Select Entity</option>';
-            for (var i = 0; i < curMigEntityDetails.length; i++) {
-                if (i == 0) {
-                    selectValidationElement.innerHTML = selectValidationElement.innerHTML + '<option selected="selected" value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
-                    selectLoadedElement.innerHTML = selectLoadedElement.innerHTML + '<option selected="selected" value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
-                } else {
-                    selectValidationElement.innerHTML = selectValidationElement.innerHTML + '<option value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
-                    selectLoadedElement.innerHTML = selectLoadedElement.innerHTML + '<option value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
-                }
+	$.ajax({
+        type: 'GET',
+        url: host+'dashboard/fetchMigrationValidationData',
+        async: true,
+        contentType: 'application/json' ,
+        success: function(data,status,xhr) {
+            if (xhr.status >= 200 && xhr.status < 400) {
+            	currentValidationData = data
+                showValidationMeter();
+            } else {
+                console.log("We connected to the server, but it returned an error.API-2");
             }
-            showValidationMeter();
-            showLoadedMeter();
-        } else {
-            console.log("We connected to the server, but it returned an error. API-1");
+            
+        },
+        error: function (xhr) {// When Service call fails
+            console.log("Error: " + xhr.responseText);
         }
-    };
-    getEntitiesRequest.onerror = function() {
-        console.log("Connection error");
-    };
-    getEntitiesRequest.send();
-    $('#selectValidationEntities').empty();
-    $('#selectLoadedEntities').empty();
+    });
+}
 
-
-
-    /*API CALL - 4 Fetch progression chart details*/
-    var fetchProgressChartRequest = new XMLHttpRequest();
-    fetchProgressChartRequest.open('GET', host+'dashboard/fetchProgressChart', false);
-    fetchProgressChartRequest.onload = function() {
-        if (fetchProgressChartRequest.status >= 200 && fetchProgressChartRequest.status < 400) {
-            progressChartDetails = JSON.parse(fetchProgressChartRequest.responseText);
-            //console.log(fetchProgressChartRequest.responseText);
-        } else {
-            console.log("We connected to the server, but it returned an error.API-4");
+function fetchMigrationLoadedData()
+{
+	$.ajax({
+        type: 'GET',
+        url: host+'dashboard/fetchMigrationLoadedData',
+        async: true,
+        contentType: 'application/json' ,
+        success: function(data,status,xhr) {
+        	if (xhr.status >= 200 && xhr.status < 400) {
+        		currentLoadedData = data;
+        		showLoadedMeter();
+        	} else {
+        		console.log("We connected to the server, but it returned an error.API-2");
+        	}
+            
+        },
+        error: function (xhr) {// When Service call fails
+            console.log("Error: " + xhr.responseText);
         }
-    };
-    fetchProgressChartRequest.onerror = function() {
-        console.log("Connection error");
-    };
-    fetchProgressChartRequest.send();
+    });
+}
 
-    /*API CALL - 5 All Entities from whole migration process*/
-    /*var getEntitiesRequest = new XMLHttpRequest();
-    getEntitiesRequest.open('GET','http://localhost:8080/dashboard/fetchEntityData');
-    getEntitiesRequest.onload = function() {
-    	if (getEntitiesRequest.status >= 200 && getEntitiesRequest.status < 400) {
-    		allMigEntityDetails = JSON.parse(getEntitiesRequest.responseText);
-    		var selectElement2 = document.getElementById('selectProgressionChartEntities');
-    		selectElement2.innerHTML = selectElement2.innerHTML + '<option value="">Select Entity</option>';
-    		for (var i = 0; i < allMigEntityDetails.length; i++) {
-    			selectElement2.innerHTML = selectElement2.innerHTML + '<option value="' + allMigEntityDetails[i]['entityType'] + '">' + allMigEntityDetails[i]['entityType'] + '</option>';
-    		}
-    		console.log("selectElement",selectElement2);
-    	} else {
-    		console.log("We connected to the server, but it returned an error.API-3");
-    	}
-    };
-    getEntitiesRequest.onerror = function() {
-        console.log("Connection error");
-    };
-    getEntitiesRequest.send();
-    $('#selectProgressionChartEntities').empty();*/
-    $.ajax({
+function fetchEntityDataUpper()
+{
+	$.ajax({
         type: 'GET',
         url: host+'dashboard/fetchEntityData',
-        async: false,
+        contentType: 'application/json' ,
+        async: true,
+        success: function(data,status,xhr) {
+            if (xhr.status >= 200 && xhr.status < 400) {
+            	curMigEntityDetails = data
+                var selectValidationElement = document.getElementById('selectValidationEntities');
+                var selectLoadedElement = document.getElementById('selectLoadedEntities');
+                selectValidationElement.innerHTML = selectValidationElement.innerHTML + '<option value="">Select Entity</option>';
+                selectLoadedElement.innerHTML = selectLoadedElement.innerHTML + '<option value="">Select Entity</option>';
+                for (var i = 0; i < curMigEntityDetails.length; i++) {
+                    if (i == 0) {
+                        selectValidationElement.innerHTML = selectValidationElement.innerHTML + '<option selected="selected" value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
+                        selectLoadedElement.innerHTML = selectLoadedElement.innerHTML + '<option selected="selected" value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
+                    } else {
+                        selectValidationElement.innerHTML = selectValidationElement.innerHTML + '<option value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
+                        selectLoadedElement.innerHTML = selectLoadedElement.innerHTML + '<option value="' + curMigEntityDetails[i]['entityType'] + '">' + curMigEntityDetails[i]['entityType'] + '</option>';
+                    }
+                }
+                fetchMigrationValidationData();
+                fetchMigrationLoadedData();
+            } else {
+                console.log("We connected to the server, but it returned an error. API-1");
+            }
+        },
+        error: function (xhr) {// When Service call fails
+            console.log("Error: " + xhr.responseText);
+        }
+    });
+}
+
+
+function fetchProgressChart()
+{
+	$.ajax({
+        type: 'GET',
+        url: host+'dashboard/fetchProgressChart',
+        async: true,
+        contentType: 'application/json' ,
+        success: function(data,status,xhr) {
+            if (xhr.status >= 200 && xhr.status < 400) {
+            	progressChartDetails = data;
+                showProgressionChart();
+            } else {
+                console.log("We connected to the server, but it returned an error.API-4");
+            }
+        },
+        error: function (xhr) {// When Service call fails
+            console.log("Error: " + xhr.responseText);
+        }
+    });
+	
+}
+
+function fetchEntityDataLower()
+{
+	$.ajax({
+        type: 'GET',
+        url: host+'dashboard/fetchEntityData',
+        contentType: 'application/json' ,
+        async: true,
         success: function(allMigEntityDetails) {
             var selectElement2 = document.getElementById('selectProgressionChartEntities');
             selectElement2.innerHTML = selectElement2.innerHTML + '<option value="">Select Entity</option>';
@@ -623,8 +621,21 @@ function refreshData()
                     selectElement2.innerHTML = selectElement2.innerHTML + '<option value="' + allMigEntityDetails[i]['entityType'] + '">' + allMigEntityDetails[i]['entityType'] + '</option>';
                 }
             }
-            showProgressionChart();
+            fetchProgressChart();
         }
-    });
+    });	
+}
+
+
+
+function refreshData()
+{
+	$('#selectValidationEntities').empty();
+    $('#selectLoadedEntities').empty();
+    $('#selectProgressionChartEntities').empty();
+	
+    fetchEntityDataLower();
+    fetchEntityDataUpper();
+
 	
 }
