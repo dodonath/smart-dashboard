@@ -377,7 +377,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 			})
 					.flatMap(f -> f.stream())
 					.map(data -> {
-						String arr[] = StringUtils.split(data, "\\|");
+						String arr[] = StringUtils.split(data, "|");
 						String entityCode = arr[0];
 						DataRejectionDetails reject = new DataRejectionDetails();
 						reject.setActive(Boolean.TRUE);
