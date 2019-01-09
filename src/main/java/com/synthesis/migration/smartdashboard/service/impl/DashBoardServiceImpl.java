@@ -9,10 +9,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -71,7 +73,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 
 	private static final String ADMIN = "Admin";
-	
+
 
 	@Autowired
 	private EntityMasterRepository entityMasterRepository;
@@ -365,7 +367,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 
 		List<DataRejectionDetails> listTargetRejectionDatas = null;
 		Map<String,Long> loadedErrorCountMap = new HashMap<>();
-		
+
 		//parse and form target data
 		if(MapUtils.isNotEmpty(concurrentMap))
 		{
@@ -504,17 +506,26 @@ public class DashBoardServiceImpl implements DashBoardService {
 		MigrationHistory history = createMigrationData(timestamp);
 		migrationHistoryRepository.saveAndFlush(history);
 
-		//persists Fallout data
+		/*		//persists Fallout data
 		Boolean falloutMsg = persistsFalloutDataFromSystem(history, timestamp);
 
 		//persists Talend data
 		Boolean talendMsg = persistsLogsIntoSystem(history, timestamp);
+		 */
 
-		if(!falloutMsg.equals(talendMsg))
+
+		List<Callable<Boolean>> tasks = new ArrayList<>();
+		tasks.add(() -> persistsFalloutDataFromSystem(history, timestamp));
+		tasks.add(() -> persistsLogsIntoSystem(history, timestamp));
+
+		ExecutorService service = Executors.newFixedThreadPool(3);
+		List<Future<Boolean>> msgs = service.invokeAll(tasks);
+		service.shutdown();
+
+		for(Future<Boolean> msg : msgs)
 		{
-			message = "Not successful";
+			if(!msg.get()) message = "Not successful";
 		}
-
 		return message;
 	}
 
